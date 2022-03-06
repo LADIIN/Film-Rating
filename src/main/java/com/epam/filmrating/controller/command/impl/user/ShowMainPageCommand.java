@@ -28,7 +28,7 @@ public class ShowMainPageCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
         try {
-            List<Film> movies = filmService.findByType(FilmType.Movie);
+            List<Film> movies = filmService.findByType(FilmType.MOVIE);
             request.setAttribute(RequestAttribute.MOVIES, movies);
             List<Film> series = filmService.findByType(FilmType.SERIES);
             request.setAttribute(RequestAttribute.SERIES, series);

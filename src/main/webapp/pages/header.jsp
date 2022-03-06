@@ -9,16 +9,30 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="header">
     <div class="container">
         <div class="header-wrapper">
-            <a href="" class="title">Movify</a>
+            <a href="${pageContext.request.contextPath}/controller?command=main_page" class="title">Moviefy</a>
 
             <ul class="header-list">
+                <c:if test="${user.isAdmin()}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/controller?command=users_page" class="list-item"> <i
+                                class="fa-solid fa-users"></i> <fmt:message key="users"
+                                                                            bundle="${content}"/></a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/controller?command=films_page&page=1"
+                           class="list-item"> <i class="fa-solid fa-film"></i></i> <fmt:message key="films"
+                                                                                                bundle="${content}"/></a>
+                    </li>
+                </c:if>
                 <li>
                     <div class="dropdown">
                         <button class="dropbtn"><i class='fa fa-language'></i>
@@ -32,8 +46,8 @@
                     </div>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/controller?command=log_out" class="list-item"><i class="fa fa-fw fa-user"></i><fmt:message key="log.out"
-                                                                                               bundle="${content}"/></a>
+                    <a href="${pageContext.request.contextPath}/controller?command=log_out" class="list-item"><i
+                            class="fa fa-fw fa-user"></i><fmt:message key="log.out" bundle="${content}"/></a>
                 </li>
             </ul>
         </div>

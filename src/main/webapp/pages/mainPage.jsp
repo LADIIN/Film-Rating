@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" %>
 <%@page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -19,11 +19,19 @@
 <%@include file="header.jsp" %>
 
 <div class="page">
+
+<%--    <div class="search-wrap">--%>
+<%--        <form>--%>
+<%--            <input class="search-input" type="text" name="Search" placeholder="Search...">--%>
+<%--            <button class="search-button" type="submit"><i class="fa fa-search"></i></button>--%>
+<%--        </form>--%>
+<%--    </div>--%>
+
     <div class="category"><fmt:message key="section.films" bundle="${content}"/></div>
     <div class="movies-grid">
         <c:forEach var="movie" items="${movies}" varStatus="loop">
-            <a class="card" href="#">
-                <img src="data:image/jpg;base64,${movie.getPosterPath()}" alt="Avatar" style="width:100%">
+            <a class="card" href="${pageContext.request.contextPath}/controller?command=film_page&id=${movie.getId()}">
+                <img src="data:image/jpg;base64,${movie.getPosterImage()}" alt="Avatar" style="width:100%">
                 <div class="card-title">${movie.getTitle()}</div>
                 <span class="genre">${movie.getGenre().toString()}</span>
                 <span class="year">${movie.getYear().toString()}</span>
@@ -34,8 +42,8 @@
     <div class="category"><fmt:message key="section.series" bundle="${content}"/></div>
     <div class="movies-grid">
         <c:forEach var="series" items="${series}" varStatus="loop">
-            <a class="card" href="#">
-                <img src="data:image/jpg;base64,${series.getPosterPath()}" alt="Avatar" style="width:100%">
+            <a class="card" href="${pageContext.request.contextPath}/controller?command=film_page&id=${series.getId()}">
+                <img src="data:image/jpg;base64,${series.getPosterImage()}" alt="Avatar" style="width:100%">
                 <div class="card-title">${series.getTitle()}</div>
                 <span class="genre">${series.getGenre().toString()}</span>
                 <span class="year">${series.getYear().toString()}</span>

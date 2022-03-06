@@ -23,18 +23,8 @@ public class ConnectionPool {
     private ConnectionPool() {
         availableConnections = new LinkedBlockingDeque<>(CONNECTION_POOL_SIZE);
         connectionsInUse = new LinkedBlockingDeque<>(CONNECTION_POOL_SIZE);
-        Connection connection;
-
-        for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
-            try {
-                connection = ConnectionFactory.create();
-                ProxyConnection proxyConnection = new ProxyConnection(connection);
-                boolean isAdded = availableConnections.add(proxyConnection);
-                LOGGER.info("Connection add:{}", isAdded);
-            } catch (SQLException e) {
-                LOGGER.error("Connection wasn't created caused database error.", e);
-            }
-        }
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        createConnections(connectionFactory);
 
         if (availableConnections.isEmpty()) {
             LOGGER.fatal("Connections weren't created.");
@@ -42,19 +32,21 @@ public class ConnectionPool {
         } else {
             if (availableConnections.size() < CONNECTION_POOL_SIZE) {
                 LOGGER.warn("Connection pool is not full. Trying to fill...");
+                createConnections(connectionFactory);
+            }
+        }
+    }
 
-                for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
-                    try {
-                        connection = ConnectionFactory.create();
-                        ProxyConnection proxyConnection = new ProxyConnection(connection);
-                        boolean isAdded = availableConnections.add(proxyConnection);
-                        LOGGER.info("Connection add:{}", isAdded);
-                    } catch (SQLException e) {
-                        LOGGER.fatal("Connection wasn't created caused database error.", e);
-                        throw new RuntimeException("Connection pool wasn't completed", e);
-                    }
-                }
-
+    private void createConnections(ConnectionFactory connectionFactory) {
+        Connection connection;
+        for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
+            try {
+                connection = connectionFactory.create();
+                ProxyConnection proxyConnection = new ProxyConnection(connection);
+                boolean isAdded = availableConnections.add(proxyConnection);
+                LOGGER.info("Connection add:{}", isAdded);
+            } catch (SQLException e) {
+                LOGGER.error("Connection wasn't created caused database error.", e);
             }
         }
     }

@@ -1,53 +1,55 @@
 /* rubik-regular - latin_cyrillic */
 @font-face {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 400;
-  src: local(''),
-       url('../fonts/rubik-v18-latin_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('../fonts/rubik-v18-latin_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+    url('../fonts/rubik-v18-latin_cyrillic-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */ url('../fonts/rubik-v18-latin_cyrillic-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* rubik-500 - latin_cyrillic */
 @font-face {
-  font-family: 'Rubik';
-  font-style: normal;
-  font-weight: 500;
-  src: local(''),
-       url('../fonts/rubik-v18-latin_cyrillic-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-       url('../fonts/rubik-v18-latin_cyrillic-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    src: local(''),
+    url('../fonts/rubik-v18-latin_cyrillic-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */ url('../fonts/rubik-v18-latin_cyrillic-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-body{
-  font-family: 'Rubik';
-  background-color: lightgray;
+body {
+    font-family: 'Rubik', sans-serif;
+    background-color: #ededed9e;
+    height: 100%;
+    line-height: 1.5;
 }
 
 *, ::before, ::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.container{
-    max-width: 1100px;
+.container {
+    max-width: 70%;
     margin: 0 auto;
-    padding: 0px 20px 0px 20px;
+    padding: 0 20px 0 20px;
 }
 
-.page{
-    max-width: 1100px;
+.page {
+    font-family: 'Rubik', sans-serif;
+    max-width: 70%;
     margin: 0 auto;
     background-color: white;
     padding: 20px;
+    min-height: 100vh;
 }
 
-.header{
+.header {
     background-color: #F73A4C;
     overflow: hidden;
     padding-top: 5px;
     padding-bottom: 5px;
-}  
+}
 
-.header-wrapper{
+.header-wrapper {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -60,25 +62,22 @@ body{
 
 .header-wrapper a {
     float: left;
-    font-family: 'Rubik';
-    padding: 12px 12px 12px 0px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
     color: white;
     text-decoration: none;
     font-size: 24px;
 }
 
-.header-list{
+.header-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-.list-item{
+.list-item {
     border-radius: 15px;
-    margin-right: 20px;
-}
-
-.list-item:last-child{
-    margin-right: 0;
+    padding: 12px 12px 12px 12px;
 }
 
 .header-list a:hover {
@@ -87,28 +86,28 @@ body{
 }
 
 .dropdown {
-  float: left;
-  overflow: hidden;
+    float: left;
+    overflow: hidden;
 }
 
 /* Dropdown button */
 .dropdown .dropbtn {
     font-size: 24px;
-    border: none;
+    border: 15px;
     outline: none;
     color: white;
-    padding: 12px 12px;
+    padding: 12px 12px 16px 12px;
     background-color: inherit;
-    font-family: 'Rubik'; 
-    margin: 0; 
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+    margin: 0;
     border-radius: 15px;
-    margin-right: 20px;
 }
 
-/* Add a red background color to navbar links on hover */
-.navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: white;
-  color: black  ;
+
+.dropdown:hover .dropbtn {
+    background-color: white;
+    color: black;
 }
 
 /* Dropdown content (hidden by default) */
@@ -117,45 +116,44 @@ body{
     position: absolute;
     background-color: #f9f9f9;
     /*min-width: 160px;*/
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
     border-radius: 15px;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  font-size: 14px;
-  text-decoration: none;
-  display: block;
-  text-align: center;
-  border-radius: 15px;
-
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    border-radius: 15px;
 }
 
 /* Add a grey background color to dropdown links on hover */
 .dropdown-content a:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-  display: block;
+    display: block;
 }
-
 
 
 /* NAVIGATION BAR */
 
 .topnav {
-  background-color: #F73A4C;
-  overflow: hidden;
+    background-color: #F73A4C;
+    overflow: hidden;
 }
 
-.topnav a {    
-    font-family: 'Rubik';
+.topnav a {
+    font-family: 'Rubik', sans-serif;
+
     font-size: 24px;
     float: left;
     color: #f2f2f2;
@@ -165,40 +163,79 @@ body{
 }
 
 .topnav a:hover {
-  background-color: #ddd;
-  color: black;
+    background-color: #ddd;
+    color: black;
 }
 
 .topnav-right {
-  font-size: 18px;
-  float: right;
+    font-size: 18px;
+    float: right;
 }
+
+
+/* SEARCH BAR*/
+
+/*.search-wrap {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    align-items: center;*/
+/*    margin: 10px 0 15px 0;*/
+/*    max-width: 100%;*/
+/*    font-size: 20px;*/
+/*}*/
+
+/*.search-input {*/
+/*    height: 34px;*/
+/*    width: 300px;*/
+/*    border-radius: 10px;*/
+/*    border: 3px solid #F73A4C;*/
+/*    padding: 10px;*/
+/*}*/
+
+/*.search-button {*/
+/*    float: right;*/
+/*    border: none;*/
+/*    height: 34px;*/
+/*    width: 34px;*/
+/*    background-color: #F73A4C;*/
+/*    color: white;*/
+/*    margin-left: 15px;*/
+/*    border-radius: 50%;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.search-button:hover {*/
+/*    background-color: white;*/
+/*    color: black;*/
+/*}*/
 
 
 /* MOVIES */
 
-.movies { margin-bottom: 60px; }
+.movies {
+    margin-bottom: 60px;
+}
 
-.category{
+.category {
     font-size: 32px;
-    font-family: 'Rubik';
+    font-family: 'Rubik', sans-serif;
     font-weight: 500;
 }
 
 .movies-grid {
     margin-top: 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 30px;
     margin-bottom: 60px;
 }
 
 .card {
-  text-decoration: none;
-  color: black;
-  transition: 0.3s;
-  border-radius: 5px;
-  font-family: 'Rubik';
+    text-decoration: none;
+    color: black;
+    transition: 0.3s;
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
 }
 
 .card-title {
@@ -206,143 +243,160 @@ body{
     margin-top: 10px;
 }
 
-.card:hover .card-title{
+.card:hover .card-title {
     color: red;
 }
 
-.genre{
+.genre {
     font-size: 12px;
 }
 
-.year{
+.year {
     font-size: 12px;
 }
 
-.card img{
+.card img {
     border-radius: 15px;
 }
 
 /* On mouse-over, add a deeper shadow */
 .card:hover img {
-    box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.2);
     transform: scale(1.05);
 }
 
 
 /*FILM PAGE*/
 
-.film-introduction{
+.film-introduction {
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
     align-items: top;
 }
 
-.film-introduction img{
+.film-introduction img {
     margin-left: 30px;
     width: 20%;
     border-radius: 20px;
     float: left;
 }
 
-.film-infromation{
+.film-information {
     float: left;
     margin-left: 50px;
 }
 
-.film-title{
+.film-title {
     font-size: 44px;
-    font-family: 'Rubik';
+    font-family: 'Rubik', serif;
     font-weight: 500;
 }
 
-.info-line{
+.info-line {
+    margin-top: 10px;
     font-size: 20px;
-    font-family: 'Rubik';
-    color: black;
-    width: 100px;
+    font-family: 'Rubik', serif;
+    color: #494949;
+    width: 120px;
 }
 
-.data-line{
+.data-line {
     font-size: 20px;
-    font-family: 'Rubik';
+    font-family: 'Rubik', serif;
     color: black;
     width: 300px;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 20px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+
 }
 
 th, td {
-  text-align: left;
-  padding: 40px;
+    text-align: left;
+    padding: 40px;
 }
 
-.description{
-    font-family: 'Rubik';
+.description {
+    font-family: 'Rubik', serif;
     font-weight: 500;
     font-size: 32px;
     padding: 15px 30px 0px 30px;
 }
 
-.film-description{
+.film-description {
     font-size: 20px;
     padding: 15px 30px 0px 30px;
 }
 
-.review-area{
-    margin: 0px 30px 30px 30px;
+.review-area {
+    margin: 0px 30px 0px 30px;
     display: flex;
     flex-wrap: wrap;
 }
 
-.review-textarea{ 
+.reviews {
+    margin: 0 30px 30px 30px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.review-textarea {
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
     height: 110px;
-    border:3px solid #F73A4C;
-    border-radius: 15px;   
+    border: 2px solid black;
+    border-radius: 15px;
     resize: none;
     max-width: 100% !important;
     width: 100%;
     margin-top: 15px;
+    padding: 10px;
 }
 
-.submit-button{
+.submit-button {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     float: left;
     margin-top: 15px;
     background-color: #F73A4C;
     border: none;
     color: white;
-    padding: 7px 10px 7px 10px;
+    text-align: center;
     font-size: 20px;
-    border-radius: 20px;
+    border-radius: 15px;
+    padding: 5px 36px;
 }
-.submit-button:hover{
+
+.submit-button:hover {
     opacity: 80%;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 
-/*  
+/*
  * Rating styles
  */
 
-.stars-rating{
+.stars-rating {
     float: left;
 }
 
 .rating {
     font-size: 45px;
 }
+
 .rating input {
-  float: right;
-  opacity: 0;
+    float: left;
+    opacity: 0;
 }
-.rating a,.rating label {
-    float:right;
+
+.rating a, .rating label {
+    float: right;
     color: #aaa;
     text-decoration: none;
     -webkit-transition: color .4s;
@@ -350,6 +404,7 @@ th, td {
     -o-transition: color .4s;
     transition: color .4s;
 }
+
 .rating label:hover ~ label,
 .rating input:focus ~ label,
 .rating label:hover,
@@ -357,377 +412,499 @@ th, td {
 .rating a:hover ~ a,
 .rating a:focus,
 .rating a:focus ~ a {
-            color: orange;
-            cursor: pointer;
+    color: orange;
+    cursor: pointer;
 }
+
 .rating2 {
     direction: rtl;
 }
+
 .rating2 a {
-    float:top;
+    float: top;
     line-height: 1;
 }
 
 
+/**
+ * REVIEW
+ */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+.review {
+    background-color: white;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 16px 0;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* make sure to set some focus styles for accessibility */
-:focus {
-    outline: 0;
+.review-header {
+    font-size: 20px;
+    margin-right: 15px;
 }
 
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block;
+.review:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-body {
-  line-height: 1;
+.review::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
-ol, ul {
-  list-style: none;
+.review img {
+    float: left;
+    margin-right: 20px;
+    border-radius: 50%;
 }
 
-blockquote, q {
-  quotes: none;
+.review p {
+    color: #494949;
 }
 
-blockquote:before, blockquote:after,
-q:before, q:after {
-  content: '';
-  content: none;
+@media (max-width: 500px) {
+    .review {
+        text-align: center;
+    }
+
+    .review img {
+        margin: auto;
+        float: none;
+        display: block;
+    }
 }
 
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+.no-reviews-message {
 }
 
-input[type=search]::-webkit-search-cancel-button,
-input[type=search]::-webkit-search-decoration,
-input[type=search]::-webkit-search-results-button,
-input[type=search]::-webkit-search-results-decoration {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+.username {
+    text-transform: uppercase;
 }
 
-input[type=search] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-}
-
-textarea {
-    overflow: auto;
-    vertical-align: top;
-    resize: vertical;
+.rate {
+    display: block;
+    font-size: 14px;
+    margin-right: 15px;
 }
 
 /**
- * Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
+ *  ADMIN PAGE
  */
 
-audio,
-canvas,
-video {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1;
+.navigation {
+    padding: 20px 0 20px;
+}
+
+.navigation ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation .search-button {
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: black;
+}
+
+.navigation .search {
+    border-bottom: 3px solid black;
+}
+
+.single-button {
+    background-color: #F73A4C;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.single-button:hover {
+    background-color: #fc4a5b;
+}
+
+.navigation .last-item {
+    float: right;
+}
+
+.navigation .search-input {
+    height: 34px;
+    width: 300px;
+    border: none;
+    padding: 10px 10px 10px 0;
+}
+
+
+.my-input {
+    width: 100%;
+    background-position: 10px 12px; /* Position the search icon */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    font-size: 16px; /* Increase font-size */
+    padding: 12px 10px 12px 10px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+#MyTable {
+    border-collapse: collapse; /* Collapse borders */
+    width: 100%; /* Full-width */
+    border: 1px solid #ddd; /* Add a grey border */
+    font-size: 18px; /* Increase font-size */
+    margin-bottom: 20px;
+}
+
+
+#MyTable th, #MyTable td {
+    padding: 12px; /* Add padding */
+}
+
+.column-left {
+    text-align: left; /* Left-align text */
+}
+
+.film-link {
+    text-decoration: none;
+    color: black;
+}
+
+.film-link:hover {
+    color: #747474;
+}
+
+.column {
+    text-align: center; /* Left-align text */
+}
+
+#MyTable tr {
+    /* Add a bottom border to all table rows */
+    border-bottom: 1px solid #ddd;
+    border-radius: 25px;
+
+}
+
+#MyTable tr.header {
+    color: white;
+    background-color: #F73A4C;
+}
+
+#MyTable tr.row:hover {
+    /* Add a grey background color to the table header and on hover */
+    background-color: #f1f1f1;
+}
+
+.block-link {
+    color: #F73A4C;
+    text-align: center;
+    text-decoration: none;
+}
+
+.unblock-link {
+    color: green;
+    text-align: center;
+    text-decoration: none;
+}
+
+.edit-link {
+    color: green;
+    text-align: center;
+    text-decoration: none;
+}
+
+.section-tittle {
+    font-size: 32px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+    padding: 10px 0 15px 0;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
     max-width: 100%;
 }
 
+.pagination a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination a.active {
+    background-color: #F73A4C;
+    color: white;
+}
+
 /**
- * Prevent modern browsers from displaying `audio` without controls.
- * Remove excess height in iOS 5 devices.
+  *  STARS RATE
  */
 
-audio:not([controls]) {
-    display: none;
+/*
+ *  Pure CSS star rating that works without reversing order
+ *  of inputs
+ *  -------------------------------------------------------
+ *  NOTE: For the styling to work, there needs to be a radio
+ *        input selected by default. There also needs to be a
+ *        radio input before the first star, regardless of
+ *        whether you offer a 'no rating' or 0 stars option
+ *
+ *  This codepen uses FontAwesome icons
+ */
+
+
+/* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+.rating-group {
+    display: inline-flex;
+}
+
+/* make hover effect work properly in IE */
+.rating__icon {
+    pointer-events: none;
+}
+
+/* hide radio inputs */
+.rating-input {
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* hide 'none' input from screenreaders */
+.rating__input--none {
+    display: none
+}
+
+/* set icon padding and size */
+.rating-label {
+    cursor: pointer;
+    padding: 0 0.1em;
+    font-size: 2rem;
+}
+
+/* set default star color */
+.rating__icon--star {
+    color: orange;
+}
+
+/* if any input is checked, make its following siblings grey */
+.rating-input:checked ~ .rating-label .rating__icon--star {
+    color: #ddd;
+}
+
+/* make all stars orange on rating group hover */
+.rating-group:hover .rating-label .rating__icon--star {
+    color: orange;
+}
+
+/* make hovered input's following siblings grey on hover */
+.rating-input:hover ~ .rating-label .rating__icon--star {
+    color: #ddd;
+}
+
+
+/**
+* ALERT MESSAGE
+*/
+
+/* The alert message box */
+
+.alert-wrapper {
+    overflow: hidden;
+    top: 0; /* Position the navbar at the top of the page */
+    position: fixed;
+    alignment: right;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+    width: 30%;
+    float: right;
+    top: 50%;
+    position: fixed;
+}
+
+/* The close button */
+.close-button {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.close-button:hover {
+    color: black;
+}
+
+/**
+    ADD FILM PAGE
+ */
+
+.film-form {
+    background: #fff;
+    font-family: 'Rubik', sans-serif;
+    width: 500px;
+    margin: 65px auto;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    border-radius: 4px;
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
+}
+
+.film-form h1 {
+    padding: 35px 35px 0 35px;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.film-form .input-field .text-input {
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    padding: 10px 1px;
+    border: 0;
+    border-bottom: 1px solid #747474;
+    outline: none;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.film-form .content {
+    padding: 15px 35px 35px;
+}
+
+.film-form .input-field {
+    padding: 12px 5px;
+}
+
+.film-form select {
+    font-size: 16px;
+    padding: 5px 1px;
+    border: 0;
+    background: none;
+    border-bottom: 1px solid #747474;
+}
+
+.film-form select option {
+    border: 0;
+    border-bottom: 1px solid #747474;
+}
+
+.selects-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.selects-list li span {
+    padding-right: 15px;
+}
+
+.film-form .year-input {
+    font-size: 16px;
+    padding: 5px 1px;
+    width: 65%;
+    border: 0;
+    border-bottom: 1px solid #747474;
+    outline: none;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.input-file {
+    width: 0;
     height: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
-/**
- * Address styling not present in IE 7/8/9, Firefox 3, and Safari 4.
- * Known issue: no IE 6 support.
- */
-
-[hidden] {
-    display: none;
+.input-file + label {
+    padding: 5px 1px;
+    font-weight: 400;
+    background: none;
+    border-bottom: 1px solid #747474;
+    display: inline-block;
 }
 
-/**
- * 1. Correct text resizing oddly in IE 6/7 when body `font-size` is set using
- *    `em` units.
- * 2. Prevent iOS text size adjust after orientation change, without disabling
- *    user zoom.
- */
-
-html {
-    font-size: 100%; /* 1 */
-    -webkit-text-size-adjust: 100%; /* 2 */
-    -ms-text-size-adjust: 100%; /* 2 */
+.input-file + label {
+    cursor: pointer;
 }
 
-/**
- * Address `outline` inconsistency between Chrome and other browsers.
- */
-
-a:focus {
-    outline: thin dotted;
+.film-form .input-field .text-input::-webkit-input-placeholder {
+    text-transform: uppercase;
 }
 
-/**
- * Improve readability when focused and also mouse hovered in all browsers.
- */
+.film-form .input-field .text-input::-moz-placeholder {
+    text-transform: uppercase;
+}
 
-a:active,
-a:hover {
+.film-form .input-field .text-input:-ms-input-placeholder {
+    text-transform: uppercase;
+}
+
+.film-form .input-field .text-input::-ms-input-placeholder {
+    text-transform: uppercase;
+}
+
+.film-form .input-field .text-input::placeholder {
+    text-transform: uppercase;
+}
+
+.film-form .input-field .text-input:focus {
+    border-color: #222;
+}
+
+.film-form a.link {
+    text-decoration: none;
+    color: #747474;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.film-form .action {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+}
+
+.film-form .action button {
+    width: 100%;
+    border: none;
+    padding: 18px;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #F73A4C;
+    color: white;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    letter-spacing: 0.2px;
     outline: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
 }
 
-/**
- * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
- * 2. Improve image quality when scaled in IE 7.
- */
-
-img {
-    border: 0; /* 1 */
-    -ms-interpolation-mode: bicubic; /* 2 */
-}
-
-/**
- * Address margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
- */
-
-figure {
-    margin: 0;
-}
-
-/**
- * Correct margin displayed oddly in IE 6/7.
- */
-
-form {
-    margin: 0;
-}
-
-/**
- * Define consistent border, margin, and padding.
- */
-
-fieldset {
-    border: 1px solid #c0c0c0;
-    margin: 0 2px;
-    padding: 0.35em 0.625em 0.75em;
-}
-
-/**
- * 1. Correct color not being inherited in IE 6/7/8/9.
- * 2. Correct text not wrapping in Firefox 3.
- * 3. Correct alignment displayed oddly in IE 6/7.
- */
-
-legend {
-    border: 0; /* 1 */
-    padding: 0;
-    white-space: normal; /* 2 */
-    *margin-left: -7px; /* 3 */
-}
-
-/**
- * 1. Correct font size not being inherited in all browsers.
- * 2. Address margins set differently in IE 6/7, Firefox 3+, Safari 5,
- *    and Chrome.
- * 3. Improve appearance and consistency in all browsers.
- */
-
-button,
-input,
-select,
-textarea {
-    font-size: 100%; /* 1 */
-    margin: 0; /* 2 */
-    vertical-align: baseline; /* 3 */
-    *vertical-align: middle; /* 3 */
-}
-
-/**
- * Address Firefox 3+ setting `line-height` on `input` using `!important` in
- * the UA stylesheet.
- */
-
-button,
-input {
-    line-height: normal;
-}
-
-/**
- * Address inconsistent `text-transform` inheritance for `button` and `select`.
- * All other form control elements do not inherit `text-transform` values.
- * Correct `button` style inheritance in Chrome, Safari 5+, and IE 6+.
- * Correct `select` style inheritance in Firefox 4+ and Opera.
- */
-
-button,
-select {
-    text-transform: none;
-}
-
-/**
- * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
- *    and `video` controls.
- * 2. Correct inability to style clickable `input` types in iOS.
- * 3. Improve usability and consistency of cursor style between image-type
- *    `input` and others.
- * 4. Remove inner spacing in IE 7 without affecting normal text inputs.
- *    Known issue: inner spacing remains in IE 6.
- */
-
-button,
-html input[type="button"], /* 1 */
-input[type="reset"],
-input[type="submit"] {
-    -webkit-appearance: button; /* 2 */
-    cursor: pointer; /* 3 */
-    *overflow: visible;  /* 4 */
-}
-
-/**
- * Re-set default cursor for disabled elements.
- */
-
-button[disabled],
-html input[disabled] {
-    cursor: default;
-}
-
-/**
- * 1. Address box sizing set to content-box in IE 8/9.
- * 2. Remove excess padding in IE 8/9.
- * 3. Remove excess padding in IE 7.
- *    Known issue: excess padding remains in IE 6.
- */
-
-input[type="checkbox"],
-input[type="radio"] {
-    box-sizing: border-box; /* 1 */
-    padding: 0; /* 2 */
-    *height: 13px; /* 3 */
-    *width: 13px; /* 3 */
-}
-
-/**
- * 1. Address `appearance` set to `searchfield` in Safari 5 and Chrome.
- * 2. Address `box-sizing` set to `border-box` in Safari 5 and Chrome
- *    (include `-moz` to future-proof).
- */
-
-input[type="search"] {
-    -webkit-appearance: textfield; /* 1 */
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box; /* 2 */
-    box-sizing: content-box;
-}
-
-/**
- * Remove inner padding and search cancel button in Safari 5 and Chrome
- * on OS X.
- */
-
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
-    -webkit-appearance: none;
-}
-
-/**
- * Remove inner padding and border in Firefox 3+.
- */
-
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-}
-
-/**
- * 1. Remove default vertical scrollbar in IE 6/7/8/9.
- * 2. Improve readability and alignment in all browsers.
- */
-
-textarea {
-    overflow: auto; /* 1 */
-    vertical-align: top; /* 2 */
-}
-
-/**
- * Remove most spacing between table cells.
- */
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-html,
-button,
-input,
-select,
-textarea {
-    color: #222;
-}
-
-
-::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-
-::selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-
-img {
-    vertical-align: middle;
-}
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-textarea {
-    resize: vertical;
-}
-
-.chromeframe {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
+.film-form .action button:hover {
+    background: #fc4a5b;
 }

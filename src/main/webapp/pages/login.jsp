@@ -19,7 +19,7 @@
 <div class="header">
     <div class="container">
         <div class="header-wrapper">
-            <a href="" class="title">Movify</a>
+            <a href="" class="title">Moviefy</a>
             <div class="dropdown">
                 <button class="dropbtn"><i class='fa fa-language'></i>
                     <i class="fa fa-caret-down"></i>

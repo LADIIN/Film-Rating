@@ -16,6 +16,7 @@ import java.time.Year;
 public class FilmRowMapper implements RowMapper<Film> {
     private final FileEncoder base64StringConverter = new FileEncoder();
 
+    //TODO:rebuild to Builder pattern;
     @Override
     public Film resultToObject(ResultSet resultSet) throws SQLException {
         long id = resultSet.getLong(TableColumns.FILM_ID);
@@ -27,8 +28,19 @@ public class FilmRowMapper implements RowMapper<Film> {
         Country country = Country.fromString(resultSet.getString(TableColumns.COUNTRY));
         double rating = resultSet.getDouble(TableColumns.RATING);
         String posterPath = resultSet.getString(TableColumns.POSTER_PATH);
-        String base64poster = base64StringConverter.encode(posterPath);
+        String posterImage = base64StringConverter.encode(posterPath);
 
-        return new Film(id, title, type, genre, year, director, country, rating, base64poster);
+        return new Film.Builder()
+                .setId(id)
+                .setTitle(title)
+                .setType(type)
+                .setGenre(genre)
+                .setYear(year)
+                .setDirector(director)
+                .setCountry(country)
+                .setRating(rating)
+                .setPosterPath(posterPath)
+                .setPosterImage(posterImage).build();
+
     }
 }

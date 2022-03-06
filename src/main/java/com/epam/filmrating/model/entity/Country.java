@@ -5,7 +5,35 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public enum Country {
-    USA("USA");
+    USA("USA"),
+    JAPAN("Japan"),
+    UK("UK"),
+    GERMANY("Germany"),
+    AUSTRIA("Austria"),
+    BELARUS("Belarus"),
+    BRAZIL("Brazil"),
+    CANADA("Canada"),
+    CHINA("China"),
+    DENMARK("Denmark"),
+    FINLAND("Finland"),
+    GREECE("Greece"),
+    ICELAND("Iceland"),
+    INDIA("India"),
+    ITALY("Italy"),
+    MEXICO("Mexico"),
+    NETHERLANDS("Netherlands"),
+    NEW_ZEALAND("New-Zealand"),
+    NORWAY("Norway"),
+    POLAND("Poland"),
+    PORTUGAL("Portugal"),
+    RUSSIA("Russia"),
+    SINGAPORE("Singapore"),
+    SPAIN("Spain"),
+    SWEDEN("Sweden"),
+    SWITZERLAND("Switzerland"),
+    TURKEY("Turkey"),
+    UKRAINE("Ukraine");
+
 
     private final String value;
 

@@ -11,7 +11,11 @@ public interface BasicDao<T extends Identifiable> {
 
     Optional<T> findById(Long id) throws DaoException;
 
-    boolean update(T t);
+    boolean update(T t) throws DaoException;
 
-    boolean delete(Long id);
+    boolean delete(Long id) throws DaoException;
+
+    boolean add(T t) throws DaoException;
+
+    int countAll() throws DaoException;
 }

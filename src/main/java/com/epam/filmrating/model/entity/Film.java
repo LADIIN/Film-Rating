@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.time.Year;
 
 public class Film implements Identifiable, Serializable {
-    private static final long serialVersionUID = 1234567L;
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String title;
     private FilmType type;
@@ -14,19 +15,7 @@ public class Film implements Identifiable, Serializable {
     private Country country;
     private double rating;
     private String posterPath;
-
-    public Film(Long id, String title, FilmType type, Genre genre,
-                Year year, String director, Country country, double rating, String posterPath) {
-        this.id = id;
-        this.title = title;
-        this.type = type;
-        this.genre = genre;
-        this.year = year;
-        this.director = director;
-        this.country = country;
-        this.rating = rating;
-        this.posterPath = posterPath;
-    }
+    private String posterImage;
 
     @Override
     public boolean equals(Object o) {
@@ -71,7 +60,6 @@ public class Film implements Identifiable, Serializable {
                 .append(", director = ").append(director)
                 .append(", country = ").append(country)
                 .append(", rating = ").append(rating)
-                .append(", posterPath = ").append(posterPath)
                 .append("}");
         return stringBuilder.toString();
     }
@@ -144,8 +132,81 @@ public class Film implements Identifiable, Serializable {
         this.posterPath = posterPath;
     }
 
+    public String getPosterImage() {
+        return posterImage;
+    }
+
+    public void setPosterImage(String posterImage) {
+        this.posterImage = posterImage;
+    }
+
     @Override
     public Long getId() {
         return id;
     }
+
+    public static class Builder {
+        private Film film;
+
+        public Builder() {
+            film = new Film();
+        }
+
+        public Film build() {
+            return film;
+        }
+
+        public Film.Builder setId(long id) {
+            film.setId(id);
+            return this;
+        }
+
+        public Film.Builder setTitle(String title) {
+            film.setTitle(title);
+            return this;
+        }
+
+        public Film.Builder setType(FilmType type) {
+            film.setType(type);
+            return this;
+        }
+
+        public Film.Builder setGenre(Genre genre) {
+            film.setGenre(genre);
+            return this;
+        }
+
+        public Film.Builder setYear(Year year) {
+            film.setYear(year);
+            return this;
+        }
+
+        public Film.Builder setDirector(String director) {
+            film.setDirector(director);
+            return this;
+        }
+
+        public Film.Builder setCountry(Country country) {
+            film.setCountry(country);
+            return this;
+        }
+
+        public Film.Builder setRating(Double rating) {
+            film.setRating(rating);
+            return this;
+        }
+
+        public Film.Builder setPosterPath(String posterPath) {
+            film.setPosterPath(posterPath);
+            return this;
+        }
+
+        public Film.Builder setPosterImage(String posterImage) {
+            film.setPosterImage(posterImage);
+            return this;
+        }
+
+    }
+
+
 }

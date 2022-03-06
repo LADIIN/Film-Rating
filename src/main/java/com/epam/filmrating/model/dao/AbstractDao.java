@@ -7,16 +7,12 @@ import com.epam.filmrating.model.pool.TransactionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T> {
     private static final Logger LOGGER = LogManager.getLogger(TransactionManager.class);
-    private static final String SELECT_BY_ID = "SELECT * FROM ? WHERE id=?;";
-    private static final String SELECT_ALL = "SELECT * FROM ?;";
+    private static final String GENERATED_KEY = "GENERATED_KEY";
 
     private final RowMapper<T> rowMapper;
     private final Connection connection;
@@ -54,7 +50,7 @@ public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T>
         return result;
     }
 
-    public boolean executeUpdateQuery(String query, Object... parameters) throws DaoException {
+    public boolean executeUpdateInsertQuery(String query, Object... parameters) throws DaoException {
         int updatedRows = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -67,6 +63,40 @@ public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T>
         return updatedRows > 0;
     }
 
+
+    public int executeSelectFunctionQuery(String query, Object... parameters) throws DaoException {
+        int result = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            setParametersInPreparedStatement(preparedStatement, parameters);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                result = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DaoException(e.getMessage());
+        }
+        return result;
+    }
+
+//    public long executeInsertQuery(String query, Object... parameters) throws DaoException {
+//        long generatedId = 0;
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+//            setParametersInPreparedStatement(preparedStatement, parameters);
+//            preparedStatement.executeUpdate();
+//            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+//            if (resultSet.next()) {
+//                generatedId = resultSet.getLong(GENERATED_KEY);
+//            }
+//        } catch (SQLException e) {
+//            throw new DaoException(e.getMessage());
+//        }
+//
+//        return generatedId;
+//    }
+
     private void setParametersInPreparedStatement(PreparedStatement statement, Object... parameters) throws
             SQLException {
         for (int i = 1; i <= parameters.length; i++) {
@@ -76,21 +106,33 @@ public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T>
 
     @Override
     public List<T> findAll() throws DaoException {
-        return executeSelectQuery(SELECT_ALL);
+        return executeSelectQuery("select * from " + tableName + ";");
     }
 
     @Override
     public Optional<T> findById(Long id) throws DaoException {
-        return executeQueryForSingleObject(SELECT_BY_ID, tableName, id);
+        return executeQueryForSingleObject("select * from " + tableName + " where id = ?;", id);
     }
 
     @Override
-    public boolean update(T entity) {
+    public boolean update(T entity) throws DaoException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean delete(Long id) throws DaoException {
+        return executeUpdateInsertQuery("update " + tableName + " set is_deleted = true where id = ?;", id);
+
+    }
+
+    @Override
+    public boolean add(T t) throws DaoException {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public int countAll() throws DaoException {
+        return executeSelectFunctionQuery("select count(*) from " + tableName + " where is_deleted = false;");
+    }
+
 }

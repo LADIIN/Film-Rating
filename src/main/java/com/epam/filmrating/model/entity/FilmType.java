@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public enum FilmType {
-    Movie("Movie"),
+    MOVIE("Movie"),
     SERIES("Series"),
     CARTOON("Cartoon");
 

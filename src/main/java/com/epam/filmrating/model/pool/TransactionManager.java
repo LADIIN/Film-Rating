@@ -62,7 +62,6 @@ public class TransactionManager {
                 }
             }
         }
-
     }
 
     public void commit() throws TransactionException {

@@ -7,6 +7,7 @@ import java.util.Optional;
 public enum Genre {
     ACTION("Action"),
     ADVENTURE("Adventure"),
+    FANTASY("Fantasy"),
     COMEDY("Comedy"),
     DRAMA("Drama"),
     HORROR("Horror"),

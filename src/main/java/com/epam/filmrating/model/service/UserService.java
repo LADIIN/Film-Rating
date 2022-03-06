@@ -3,17 +3,23 @@ package com.epam.filmrating.model.service;
 import com.epam.filmrating.exception.DaoException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.exception.TransactionException;
+import com.epam.filmrating.model.dao.impl.FilmDaoImpl;
 import com.epam.filmrating.model.dao.impl.UserDaoImpl;
+import com.epam.filmrating.model.entity.Film;
+import com.epam.filmrating.model.entity.Review;
 import com.epam.filmrating.model.entity.User;
 import com.epam.filmrating.model.pool.TransactionManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
+    private static final int RAISE_VALUE = 1;
+
     private final TransactionManager transactionManager = TransactionManager.getInstance();
 
     public Optional<User> login(String login, String password) throws ServiceException {
@@ -26,18 +32,140 @@ public class UserService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Error caused by {}", e.getMessage());
-            throw new ServiceException("Error caused by", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return user;
     }
 
-    public static void main(String[] args) throws ServiceException {
+    public List<User> getAllUsers() throws ServiceException {
+        List<User> users;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            users = userDao.findAll();
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return users;
+    }
+
+    public Optional<User> findById(Long id) throws ServiceException {
+        Optional<User> userOptional = Optional.empty();
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            userOptional = userDao.findById(id);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return userOptional;
+    }
+
+    public boolean setBlockStatus(Long id) throws ServiceException {
+        boolean isUpdated = false;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            Optional<User> userOptional = userDao.findById(id);
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                boolean isBlocked = user.isBlocked();
+                user.setBlocked(!isBlocked);
+                isUpdated = userDao.update(user);
+                transactionManager.commit();
+            }
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return isUpdated;
+    }
+
+    public List<User> findGroupForPage(int currentPage, int usersOnPage) throws ServiceException {
+        List<User> users;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            int offset = (currentPage - 1) * usersOnPage;
+            users = userDao.getGroup(offset, usersOnPage);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            LOGGER.error("Finding group of users error caused by ", e);
+            throw new ServiceException("Finding group of users error caused by ", e);
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return users;
+    }
+
+
+    public int countUsers() throws ServiceException {
+        int amount = 0;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            amount = userDao.countAll();
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            LOGGER.error("Counting all users error caused by ", e);
+            throw new ServiceException("Counting all users error caused by ", e);
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return amount;
+    }
+
+    public void raiseStatusById(Long userId, int status) throws ServiceException {
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            userDao.updateStatus(userId, status);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+    }
+
+
+    public void updateUsersStatusByReviewRate(Long filmId) throws ServiceException {
+        FilmService filmService = new FilmService();
+        ReviewService reviewService = new ReviewService();
         UserService userService = new UserService();
-        Optional<User> user = userService.login("admin", "admin");
-        user.ifPresent(System.out::println);
+
+        Optional<Film> filmOptional = filmService.findById(filmId);
+        Film film = filmOptional.orElseThrow(IllegalArgumentException::new);
+        double rating = film.getRating();
+
+        List<Review> reviews = reviewService.findAllByFilmId(filmId);
+        for (Review review : reviews) {
+            if (review.getRate() == (int) rating) {
+                userService.raiseStatusById(review.getUserId(), RAISE_VALUE);
+            }
+        }
     }
 
 }
