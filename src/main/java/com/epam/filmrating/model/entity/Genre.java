@@ -1,43 +1,63 @@
 package com.epam.filmrating.model.entity;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.io.Serializable;
 
-public enum Genre {
-    ACTION("Action"),
-    ADVENTURE("Adventure"),
-    FANTASY("Fantasy"),
-    COMEDY("Comedy"),
-    DRAMA("Drama"),
-    HORROR("Horror"),
-    MUSICAL("Musicals"),
-    SCIENCE_FICTION("Sci-fi"),
-    WAR("War"),
-    WESTERN("Western"),
-    DETECTIVE("Detective");
+public class Genre implements Identifiable, Serializable {
+    private Long id;
+    private String name;
 
-    private final String value;
+    public Genre(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-    Genre(String value) {
-        this.value = value;
+    public Genre(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Genre genre = (Genre) o;
+        return id.equals(genre.id) && name.equals(genre.name);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Long.hashCode(id);
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return value;
+        return "Genre{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
-
-    public static Genre fromString(String value) {
-        Optional<Genre> genreOptional = Arrays.stream(values())
-                .filter(genre -> genre.value.equalsIgnoreCase(value))
-                .findFirst();
-        if (genreOptional.isPresent()) {
-            return genreOptional.get();
-        } else {
-            throw new NoSuchElementException("Can't find such Enum Genre: " + value);
-        }
-    }
-
-
 }

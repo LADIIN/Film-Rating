@@ -7,6 +7,7 @@ import com.epam.filmrating.model.dao.impl.ReviewDaoImpl;
 import com.epam.filmrating.model.entity.Review;
 import com.epam.filmrating.model.entity.User;
 import com.epam.filmrating.model.pool.TransactionManager;
+import com.epam.filmrating.model.validator.ReviewValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +45,7 @@ public class ReviewService {
     //TODO:ADD validator
     public boolean add(int rate, String content, Long filmId, Long userId) throws ServiceException {
         boolean isAdded = false;
+        ReviewValidator reviewValidator = new ReviewValidator();
 
         try {
             transactionManager.initializeTransaction();
@@ -55,8 +57,10 @@ public class ReviewService {
                     .setFilmId(filmId)
                     .setUserId(userId).build();
 
-            reviewDao.add(review);
-            isAdded = true;
+            if (reviewValidator.isValid(review)) {
+                reviewDao.add(review);
+                isAdded = true;
+            }
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -84,13 +88,13 @@ public class ReviewService {
         return amount;
     }
 
-    public int sumFilmRates(Long filmId) throws ServiceException {
-        int sum = 0;
+    public double getAverageFilmRate(Long filmId) throws ServiceException {
+        double averageRate = 0;
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             ReviewDaoImpl reviewDao = new ReviewDaoImpl(connection);
-            sum = reviewDao.sumFilmRates(filmId);
+            averageRate = reviewDao.getAverageFilmRate(filmId);
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -98,20 +102,22 @@ public class ReviewService {
         } finally {
             transactionManager.endTransaction();
         }
-        return sum;
+        return averageRate;
     }
 
-    public double calculateRating(Long filmId) throws ServiceException {
-        double ratesSum = sumFilmRates(filmId);
-        int reviewsAmount = countFilmReviews(filmId);
-
-        return ratesSum / reviewsAmount;
-    }
-
-    public static void main(String[] args) throws ServiceException {
-        ReviewService reviewService = new ReviewService();
-        int amount = reviewService.sumFilmRates(1L);
-        System.out.println(amount);
+    public boolean deleteReview(Long id) throws ServiceException {
+        boolean isDeleted = false;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            ReviewDaoImpl reviewDao = new ReviewDaoImpl(connection);
+            isDeleted = reviewDao.delete(id);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        }
+        return isDeleted;
     }
 
 }

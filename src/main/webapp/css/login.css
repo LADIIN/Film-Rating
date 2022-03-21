@@ -7,125 +7,6 @@
 
 body {
     background: white;
-    font-family: 'Rubik';
-}
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0px 20px 0px 20px;
-}
-
-.page {
-    max-width: 1100px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 20px;
-}
-
-.header {
-    background-color: #F73A4C;
-    overflow: hidden;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.header-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.title {
-    float: left;
-}
-
-.header-wrapper a {
-    float: left;
-    font-family: 'Rubik';
-    padding: 12px 12px 12px 0px;
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-}
-
-.header-list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.list-item {
-    border-radius: 15px;
-    margin-right: 20px;
-}
-
-.list-item:last-child {
-    margin-right: 0;
-}
-
-.header-list button:hover {
-    background-color: white;
-    color: black;
-}
-
-.dropdown {
-    float: left;
-    overflow: hidden;
-}
-
-/* Dropdown button */
-.dropdown .dropbtn {
-    font-size: 24px;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 12px 12px;
-    background-color: inherit;
-    font-family: 'Rubik';
-    margin: 0;
-    border-radius: 15px;
-    margin-right: 20px;
-}
-
-/* Add a red background color to navbar links on hover */
-.navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: white;
-    color: black;
-}
-
-/* Dropdown content (hidden by default) */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    /*min-width: 160px;*/
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 15px;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    font-size: 14px;
-    text-decoration: none;
-    display: block;
-    text-align: center;
-    border-radius: 15px;
-
-}
-
-/* Add a grey background color to dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-    display: block;
 }
 
 .login-form {
@@ -142,8 +23,10 @@ body {
 }
 
 .login-form h1 {
+    font-family: 'Rubik', serif;
+    font-size: 32px;
     padding: 35px 35px 0 35px;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .login-form .content {

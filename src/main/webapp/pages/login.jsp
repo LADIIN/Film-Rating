@@ -12,27 +12,11 @@
     <title>Login page</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
-<div class="header">
-    <div class="container">
-        <div class="header-wrapper">
-            <a href="" class="title">Moviefy</a>
-            <div class="dropdown">
-                <button class="dropbtn"><i class='fa fa-language'></i>
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="${pageContext.request.contextPath}/controller?command=locale&newLocale=ru_RU">RU</a>
-                    <a href="${pageContext.request.contextPath}/controller?command=locale&newLocale=by_BY">BY</a>
-                    <a href="${pageContext.request.contextPath}/controller?command=locale&newLocale=en_US">ENG</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="header.jsp" %>
 
 <div class="login-form">
     <form method="post" action="${pageContext.request.contextPath}/controller">
@@ -50,15 +34,16 @@
                 <input name="password" type="password" placeholder="${password}" for="password"
                        autocomplete="new-password">
             </div>
+            <c:if test="${errorMessage != null}">
+                <div class="error-message">
+                    <fmt:message key="${errorMessage}" bundle="${content}"/>
+                </div>
+            </c:if>
         </div>
         <div class="action">
             <button type="submit"><fmt:message key="sign.in" bundle="${content}"/></button>
         </div>
-        <c:if test="${errorMessage != null}">
-            <div class="error-message">
-                <fmt:message key="${errorMessage}" bundle="${content}"/>
-            </div>
-        </c:if>
+
 
     </form>
 </div>

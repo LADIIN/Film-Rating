@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/mouseOnlyNumberInput.js"></script>
 
     <script>
         function showName() {
@@ -25,9 +26,9 @@
             let select = document.querySelector('#type');
             select.value = "${film.getType().toString()}";
             select = document.querySelector('#country');
-            select.value = "${film.getCountry().toString()}";
+            select.value = "${film.getCountry().getName()}";
             select = document.querySelector('#genre');
-            select.value = "${film.getGenre().toString()}";
+            select.value = "${film.getGenre().getName()}";
         }
     </script>
     <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
@@ -36,105 +37,77 @@
 <body>
 
 <jsp:include page="header.jsp"/>
+<div class="film-form">
+    <form id="film-form" method="post" action="${pageContext.request.contextPath}/upload_controller"
+          enctype="multipart/form-data">
+        <input type="hidden" name="command" value="edit_film"/>
+        <input type="hidden" name="id" value="${film.getId()}"/>
+        <h1><fmt:message key="edit.film.header" bundle="${content}"/></h1>
+        <div class="content">
+            <div class="input-field">
+                <input class="text-input" name="title" type="text" maxlength="128"
+                       placeholder="<fmt:message key="film.title" bundle="${content}"/>" value="${film.getTitle()}"/>
+            </div>
+            <div class="input-field">
+                <ul class="selects-list">
+                    <li>
+                        <span><fmt:message key="film.type" bundle="${content}"/>:</span>
+                        <select id="type" name="type">
+                            <option value="Movie">Movie</option>
+                            <option value="Series">Series</option>
+                            <option value="Cartoon">Cartoon</option>
+                        </select>
+                    </li>
+                    <li>
+                        <span><fmt:message key="film.genre" bundle="${content}"/>:</span>
+                        <select id="genre" name="genre">
+                            <c:forEach var="genre" items="${genres}" varStatus="loop">
+                                <option value="${genre.getName()}">${genre.getName()}</option>
+                            </c:forEach>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+            <div class="input-field">
+                <input class="text-input" name="director" type="text" maxlength="128"
+                       placeholder="<fmt:message key="film.director" bundle="${content}"/>"
+                       value="${film.getDirector()}"/>
+            </div>
+            <div class="input-field">
+                <ul class="selects-list">
+                    <li>
+                        <span><fmt:message key="film.country" bundle="${content}"/>:</span>
+                        <select id="country" name="country">
+                            <c:forEach var="country" items="${countries}" varStatus="loop">
+                                <option value="${country.getName()}">${country.getName()}</option>
+                            </c:forEach>
+                        </select>
+                    </li>
+                    <li style="max-width: 40%">
+                        <span><fmt:message key="film.year" bundle="${content}"/>:</span>
+                        <input id="year-input" class="year-input" name="year" type="number" min="1895"
+                               max="${currentYear}"
+                               step="1"
+                               value="${film.getYear()}"/>
+                    </li>
+                </ul>
+            </div>
+            <div class="upload-image-field">
+                <input type="file" id="fileInput" name="image" class="input-file" accept=".jpg, .jpeg, .png"
+                       onchange="showName()">
+                <label id="input-label" for="fileInput"><i class="fa-regular fa-image"></i>
+                    <fmt:message key="edit.film.change.poster" bundle="${content}"/>
+                </label>
+            </div>
+            <c:if test="${error != null}">
+                <div class="error-message">${error}</div>
+            </c:if>
+        </div>
+    </form>
 
-<form class="film-form">
-    <input type="hidden" name="command" value="edit_film"/>
-    <input type="hidden" name="id" value="${film.getId()}"/>
-    <h1><fmt:message key="edit.film.header" bundle="${content}"/></h1>
-    <div class="content">
-        <div class="input-field">
-            <input class="text-input" name="title" type="text"
-                   placeholder="<fmt:message key="film.title" bundle="${content}"/>" value="${film.getTitle()}"/>
-        </div>
-        <div class="input-field">
-            <ul class="selects-list">
-                <li>
-                    <span><fmt:message key="film.type" bundle="${content}"/>:</span>
-                    <select id="type" name="type">
-                        <option value="Movie">Movie</option>
-                        <option value="Series">Series</option>
-                        <option value="Cartoon">Cartoon</option>
-                    </select>
-                </li>
-                <li>
-                    <span><fmt:message key="film.genre" bundle="${content}"/>:</span>
-                    <select id="genre" name="genre">
-                        <option value="Action">Action</option>
-                        <option value="Detective">Detective</option>
-                        <option value="Fantasy">Fantasy</option>
-                        <option value="Adventure">Adventure</option>
-                        <option value="Comedy">Comedy</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Horror">Horror</option>
-                        <option value="Musical">Musical</option>
-                        <option value="Sci-fi">Sci-fi</option>
-                        <option value="War">War</option>
-                        <option value="Western">Western</option>
-                    </select>
-                </li>
-            </ul>
-        </div>
-        <div class="input-field">
-            <input class="text-input" name="director" type="text"
-                   placeholder="<fmt:message key="film.director" bundle="${content}"/>" value="${film.getDirector()}"/>
-        </div>
-        <div class="input-field">
-            <ul class="selects-list">
-                <li>
-                    <span><fmt:message key="film.country" bundle="${content}"/>:</span>
-                    <select id="country" name="country">
-                        <option value="Australia">Australia</option>
-                        <option value="Austria">Austria</option>
-                        <option value="Belarus">Belarus</option>
-                        <option value="Belgium">Belgium</option>
-                        <option value="Brazil">Brazil</option>
-                        <option value="Canada">Canada</option>
-                        <option value="China">China</option>
-                        <option value="Denmark">Denmark</option>
-                        <option value="Egypt">Egypt</option>
-                        <option value="Finland">Finland</option>
-                        <option value="France">France</option>
-                        <option value="Germany">Germany</option>
-                        <option value="Greece">Greece</option>
-                        <option value="Iceland">Iceland</option>
-                        <option value="India">India</option>
-                        <option value="Italy">Italy</option>
-                        <option value="Japan">Japan</option>
-                        <option value="Mexico">Mexico</option>
-                        <option value="Netherlands">Netherlands</option>
-                        <option value="New Zealand">New Zealand</option>
-                        <option value="Norway">Norway</option>
-                        <option value="Poland">Poland</option>
-                        <option value="Portugal">Portugal</option>
-                        <option value="Russia">Russia</option>
-                        <option value="Saudi Arabia">Saudi Arabia</option>
-                        <option value="Singapore">Singapore</option>
-                        <option value="Spain">Spain</option>
-                        <option value="Sweden">Sweden</option>
-                        <option value="Switzerland">Switzerland</option>
-                        <option value="Turkey">Turkey</option>
-                        <option value="Ukraine">Ukraine</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="USA">USA</option>
-                    </select>
-                </li>
-                <li style="max-width: 40%">
-                    <span><fmt:message key="film.year" bundle="${content}"/>:</span>
-                    <input id="year" class="year-input" name="year" type="number" min="1895" max="2022" step="1"
-                           value="${film.getYear()}"/>
-                </li>
-            </ul>
-        </div>
-        <div class="input-field">
-            <input type="file" id="fileInput" name="poster_path" class="input-file" accept=".jpg, .jpeg, .png"
-                   onchange="showName()" value="${film.getPosterPath()}"/>
-            <label id="input-label" for="fileInput"><i class="fa-regular fa-image"></i> <fmt:message
-                    key="edit.film.change.poster" bundle="${content}"/></label>
-        </div>
-    </div>
     <div class="action">
-        <button type="submit"><fmt:message key="edit.film.change" bundle="${content}"/></button>
+        <button type="submit" form="film-form"><fmt:message key="edit.film.change" bundle="${content}"/></button>
     </div>
-</form>
+</div>
 </body>
 </html>

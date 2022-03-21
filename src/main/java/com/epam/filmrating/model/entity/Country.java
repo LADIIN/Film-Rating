@@ -1,59 +1,62 @@
 package com.epam.filmrating.model.entity;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.io.Serializable;
 
-public enum Country {
-    USA("USA"),
-    JAPAN("Japan"),
-    UK("UK"),
-    GERMANY("Germany"),
-    AUSTRIA("Austria"),
-    BELARUS("Belarus"),
-    BRAZIL("Brazil"),
-    CANADA("Canada"),
-    CHINA("China"),
-    DENMARK("Denmark"),
-    FINLAND("Finland"),
-    GREECE("Greece"),
-    ICELAND("Iceland"),
-    INDIA("India"),
-    ITALY("Italy"),
-    MEXICO("Mexico"),
-    NETHERLANDS("Netherlands"),
-    NEW_ZEALAND("New-Zealand"),
-    NORWAY("Norway"),
-    POLAND("Poland"),
-    PORTUGAL("Portugal"),
-    RUSSIA("Russia"),
-    SINGAPORE("Singapore"),
-    SPAIN("Spain"),
-    SWEDEN("Sweden"),
-    SWITZERLAND("Switzerland"),
-    TURKEY("Turkey"),
-    UKRAINE("Ukraine");
+public class Country implements Identifiable, Serializable {
+    public static final String ID = "ID";
+    public static final String NAME = "country";
 
+    private Long id;
+    private String name;
 
-    private final String value;
+    public Country(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-    Country(String value) {
-        this.value = value;
+    public Country(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Country country = (Country) o;
+        return id.equals(country.id) && name.equals(country.name);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + Long.hashCode(id);
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 
     @Override
     public String toString() {
-        return value;
-    }
-
-    public static Country fromString(String value) {
-        Optional<Country> countryOptional = Arrays.stream(values())
-                .filter(genre -> genre.value.equalsIgnoreCase(value))
-                .findFirst();
-        if (countryOptional.isPresent()) {
-            return countryOptional.get();
-        } else {
-            throw new NoSuchElementException("Can't find such Enum Country:" + value);
-        }
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

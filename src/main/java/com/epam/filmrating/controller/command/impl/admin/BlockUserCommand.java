@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class BlockUserCommand implements Command {
-    private final UserService userService;
     private static final String CURRENT_PAGE_NUMBER = "page";
+    public static final String ID = "id";
+
+    private final UserService userService;
 
     public BlockUserCommand(UserService userService) {
         this.userService = userService;
@@ -19,10 +21,10 @@ public class BlockUserCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, CommandException {
         HttpSession session = request.getSession();
-        Long id = Long.valueOf(request.getParameter(RequestParameter.ID));
-        System.out.println(id);
+        Long id = Long.valueOf(request.getParameter(ID));
         boolean isUpdated = userService.setBlockStatus(id);
         int currentPage = (int) session.getAttribute(CURRENT_PAGE_NUMBER);
-        return CommandResult.forward(Pages.USERS_PAGE_REDIRECT + currentPage);
+
+        return CommandResult.redirect(Pages.USERS_PAGE_REDIRECT + currentPage);
     }
 }

@@ -140,7 +140,7 @@ public class UserService {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             UserDaoImpl userDao = new UserDaoImpl(connection);
-            userDao.updateStatus(userId, status);
+            userDao.raiseStatus(userId, status);
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -166,6 +166,63 @@ public class UserService {
                 userService.raiseStatusById(review.getUserId(), RAISE_VALUE);
             }
         }
+    }
+
+    public boolean changeRole(Long id) throws ServiceException {
+        boolean isUpdated = false;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            Optional<User> userOptional = userDao.findById(id);
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                boolean isAdmin = user.isAdmin();
+                user.setAdmin(!isAdmin);
+                isUpdated = userDao.update(user);
+                transactionManager.commit();
+            }
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return isUpdated;
+    }
+
+    public boolean changeStatus(Long id, int status) throws ServiceException {
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            userDao.updateStatus(id, status);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return true;
+    }
+
+    public List<User> searchUsersByLogin(String login) throws ServiceException {
+        List<User> users;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            users = userDao.searchByLogin(login);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return users;
     }
 
 }

@@ -12,7 +12,6 @@ import java.util.*;
 
 public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T> {
     private static final Logger LOGGER = LogManager.getLogger(TransactionManager.class);
-    private static final String GENERATED_KEY = "GENERATED_KEY";
 
     private final RowMapper<T> rowMapper;
     private final Connection connection;
@@ -64,14 +63,14 @@ public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T>
     }
 
 
-    public int executeSelectFunctionQuery(String query, Object... parameters) throws DaoException {
-        int result = 0;
+    public Number executeSelectFunctionQuery(String query, Object... parameters) throws DaoException {
+        Number result = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             setParametersInPreparedStatement(preparedStatement, parameters);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                result = resultSet.getInt(1);
+                result = (Number) resultSet.getObject(1);
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -79,23 +78,6 @@ public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T>
         }
         return result;
     }
-
-//    public long executeInsertQuery(String query, Object... parameters) throws DaoException {
-//        long generatedId = 0;
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-//            setParametersInPreparedStatement(preparedStatement, parameters);
-//            preparedStatement.executeUpdate();
-//            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-//            if (resultSet.next()) {
-//                generatedId = resultSet.getLong(GENERATED_KEY);
-//            }
-//        } catch (SQLException e) {
-//            throw new DaoException(e.getMessage());
-//        }
-//
-//        return generatedId;
-//    }
 
     private void setParametersInPreparedStatement(PreparedStatement statement, Object... parameters) throws
             SQLException {
@@ -132,7 +114,7 @@ public abstract class AbstractDao<T extends Identifiable> implements BasicDao<T>
 
     @Override
     public int countAll() throws DaoException {
-        return executeSelectFunctionQuery("select count(*) from " + tableName + " where is_deleted = false;");
+        return executeSelectFunctionQuery("select count(*) from " + tableName + " where is_deleted = false;").intValue();
     }
 
 }

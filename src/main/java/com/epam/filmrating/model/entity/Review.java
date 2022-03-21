@@ -55,7 +55,7 @@ public class Review implements Identifiable {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     public void setId(Long id) {

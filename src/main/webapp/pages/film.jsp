@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="${pageContext.request.contextPath}/assets/js/setMessageTimeout.js"></script>
 
     <title>Movie page</title>
 </head>
@@ -39,7 +40,7 @@
                     <td class="info-line">
                         <fmt:message key="film.genre" bundle="${content}"/>:
                     </td>
-                    <td class="data-line">${film.getGenre().toString()}</td>
+                    <td class="data-line">${film.getGenre().getName()}</td>
                 </tr>
                 <tr>
                     <td class="info-line">
@@ -57,7 +58,7 @@
                     <td class="info-line">
                         <fmt:message key="film.country" bundle="${content}"/>:
                     </td>
-                    <td class="data-line">${film.getCountry().toString()}</td>
+                    <td class="data-line">${film.getCountry().getName()}</td>
                 </tr>
             </table>
         </div>
@@ -65,17 +66,14 @@
 
     <div class="description"><fmt:message key="review.message" bundle="${content}"/></div>
 
-    <form method="post" action="${pageContext.request.contextPath}/controller">
+    <form method="get" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="add_review"/>
         <input type="hidden" name="filmId" value="${film.getId()}">
         <div class="review-area">
             <div id="full-stars-example-two">
                 <div class="rating-group">
-                    <input disabled checked class="rating-input rating__input--none" name="rate" id="rating3-none"
+                    <input checked class="rating-input rating__input--none" name="rate" id="rating3-none"
                            value="0" type="radio">
-                    <label aria-label="1 star" class="rating-label" for="rating3-1"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-1" value="1" type="radio">
                     <label aria-label="2 stars" class="rating-label" for="rating3-2"><i
                             class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
                     <input class="rating-input" name="rate" id="rating3-2" value="2" type="radio">
@@ -108,7 +106,13 @@
 
             <fmt:message key="review.placeholder" bundle="${content}" var="placeholder"/>
 
+
             <textarea class="review-textarea" name="reviewContent" placeholder="${placeholder}"></textarea>
+
+            <c:if test="${error != null}">
+            <div class="error-message"><fmt:message key="${error}" bundle="${content}"/></div>
+            </c:if>
+
             <div style="width: 100%;">
                 <button class="submit-button"><fmt:message key="review.submit" bundle="${content}"/></button>
             </div>
@@ -120,29 +124,45 @@
 
 <div class="reviews">
     <c:if test="${reviews.isEmpty()}">
-        <div class="no-reviews-message">There is no reviews. You can be first!</div>
+        <div class="no-reviews-message"><fmt:message key="reviews.no.reviews" bundle="${content}"/></div>
     </c:if>
     <c:forEach var="review" items="${reviews}">
         <div class="review">
-            <img src="${pageContext.request.contextPath}/assets/user-profile.svg" alt="Avatar" style="width:90px">
-            <div class="review-header">
-                <div class="username">
-                        ${review.getUser().getLogin()}
+            <div class="avatar"><img src="${pageContext.request.contextPath}/assets/user-profile.svg" alt="user"
+                                     width="75"></div>
+            <div class="information">
+                <h6 class="username"> ${review.getUser().getLogin()}</h6>
+                <h6 class="rate">
+                    <c:forEach begin="1" end="${review.getRate()}" varStatus="loop">
+                        <i class="fa-solid fa-star star"></i>
+                    </c:forEach>
+                    <c:forEach begin="1" end="${10 - review.getRate()}" varStatus="loop">
+                        <i class="fa-solid fa-star"></i>
+                    </c:forEach>
+                        ${review.getRate()}/10
+
+                </h6>
+                <p class="content">${review.getContent()}</p>
+                <div class="comment-footer">
+                    <c:if test="${user.isAdmin()}">
+                        <a class="delete-button"
+                           href="${pageContext.request.contextPath}/controller?command=delete_review&id=${review.getId()}">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </c:if>
+
+                        <%--                    <span class="date">April 14, 2019</span>--%>
                 </div>
-                <div class="rate">Rate: ${review.getRate()}/10</div>
             </div>
-            <p>${review.getContent()}</p>
         </div>
     </c:forEach>
-</div>
+
+    <c:if test="${message != null}">
+        <div id="message">${message}</div>
+    </c:if>
 
 </div>
-<div class="alert-wrapper">
-    <div class="alert">
-        <span class="close-button" onclick="this.parentElement.style.display='none';">&times;</span>
-        This is an alert box.
-    </div>
-</div>
+
 
 </body>
 </html>

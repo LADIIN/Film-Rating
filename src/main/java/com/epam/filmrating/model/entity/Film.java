@@ -4,6 +4,18 @@ import java.io.Serializable;
 import java.time.Year;
 
 public class Film implements Identifiable, Serializable {
+    public static final String FILM_ID = "id";
+    public static final String TYPE = "type";
+    public static final String TITLE = "title";
+    public static final String GENRE_ID = "genre_id";
+    public static final String GENRE = "genre";
+    public static final String YEAR = "year";
+    public static final String DIRECTOR = "director";
+    public static final String COUNTRY_ID = "country_id";
+    public static final String COUNTRY = "country";
+    public static final String RATING = "rating";
+    public static final String POSTER_PATH = "poster_path";
+
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -207,6 +219,4 @@ public class Film implements Identifiable, Serializable {
         }
 
     }
-
-
 }

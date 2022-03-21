@@ -6,7 +6,6 @@ import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.service.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +16,8 @@ import java.io.IOException;
 
 public class ControllerServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
+    public static final String COMMAND = "command";
+    public static final String ERROR = "errorMessage";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,12 +25,12 @@ public class ControllerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String commandName = req.getParameter(RequestParameter.COMMAND);
+        String commandName = req.getParameter(COMMAND);
         LOGGER.info("Command: {}", commandName);
         CommandFactory commandFactory = new CommandFactory();
         Command command = commandFactory.create(commandName).orElseThrow(IllegalArgumentException::new);
@@ -38,7 +39,7 @@ public class ControllerServlet extends HttpServlet {
             CommandResult result = command.execute(req, resp);
             dispatch(req, resp, result);
         } catch (ServiceException | CommandException e) {
-            req.setAttribute(RequestAttribute.ERROR, e.getMessage());
+            req.setAttribute(ERROR, e.getMessage());
             dispatch(req, resp, CommandResult.forward("/pages/error.jsp"));
         }
     }

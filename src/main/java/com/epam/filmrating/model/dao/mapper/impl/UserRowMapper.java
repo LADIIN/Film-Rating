@@ -7,17 +7,16 @@ import com.epam.filmrating.model.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static com.epam.filmrating.model.dao.TableColumns.*;
 
 public class UserRowMapper implements RowMapper<User> {
     @Override
     public User resultToObject(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(USER_ID);
-        String login = resultSet.getString(USER_LOGIN);
-        String email = resultSet.getString(USER_EMAIL);
-        int status = resultSet.getInt(USER_STATUS);
-        boolean isAdmin = resultSet.getBoolean(USER_IS_ADMIN);
-        boolean isBlocked = resultSet.getBoolean(USER_IS_BLOCKED);
+        long id = resultSet.getLong(User.USER_ID);
+        String login = resultSet.getString(User.USER_LOGIN);
+        String email = resultSet.getString(User.USER_EMAIL);
+        int status = resultSet.getInt(User.USER_STATUS);
+        boolean isAdmin = resultSet.getBoolean(User.USER_IS_ADMIN);
+        boolean isBlocked = resultSet.getBoolean(User.USER_IS_BLOCKED);
 
         return new User.Builder().setId(id)
                 .setLogin(login)

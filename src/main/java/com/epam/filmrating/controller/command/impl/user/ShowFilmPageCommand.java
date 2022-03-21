@@ -16,11 +16,17 @@ import java.util.Optional;
 
 
 public class ShowFilmPageCommand implements Command {
+    public static final String ID = "id";
+    public static final String CURRENT_PAGE = "current_page";
+    private static final String FILM = "film";
+    private static final String REVIEWS = "reviews";
+    private static final String IS_REVIEW_DELETED = "isReviewDeleted";
+    private static final String MESSAGE = "message";
+    private static final String REVIEW_DELETED = "Review was deleted.";
+
     private final FilmService filmService;
     private final ReviewService reviewService;
 
-    private static final String FILM = "film";
-    private static final String REVIEWS = "reviews";
 
     public ShowFilmPageCommand(FilmService filmService, ReviewService reviewService) {
         this.filmService = filmService;
@@ -30,13 +36,25 @@ public class ShowFilmPageCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, CommandException {
         HttpSession session = request.getSession();
-        Long id = Long.valueOf(request.getParameter(RequestParameter.ID));
+        Long id = Long.valueOf(request.getParameter(ID));
         Optional<Film> filmOptional = filmService.findById(id);
         Film film = filmOptional.orElseThrow(IllegalArgumentException::new);
         session.setAttribute(FILM, film);
         List<Review> reviews = reviewService.findAllByFilmId(film.getId());
+
+        session.getAttribute(IS_REVIEW_DELETED);
+
+        Object isDeletedObject = session.getAttribute(IS_REVIEW_DELETED);
+        if (isDeletedObject != null) {
+            boolean isDeleted = (boolean) isDeletedObject;
+            if (isDeleted) {
+                System.out.println("Message received");
+                session.setAttribute(MESSAGE, REVIEW_DELETED);
+                session.removeAttribute(IS_REVIEW_DELETED);
+            }
+        }
         session.setAttribute(REVIEWS, reviews);
-        session.setAttribute(SessionAttribute.CURRENT_PAGE, Pages.FILM_PAGE_REDIRECT + id);
+        session.setAttribute(CURRENT_PAGE, Pages.FILM_PAGE_REDIRECT + id);
         return CommandResult.forward(Pages.FILM_PAGE);
     }
 }

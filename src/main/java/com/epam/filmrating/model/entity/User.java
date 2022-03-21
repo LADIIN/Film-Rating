@@ -3,6 +3,13 @@ package com.epam.filmrating.model.entity;
 import java.io.Serializable;
 
 public class User implements Identifiable, Serializable {
+    public static final String USER_ID = "id";
+    public static final String USER_LOGIN = "login";
+    public static final String USER_EMAIL = "email";
+    public static final String USER_STATUS = "status";
+    public static final String USER_IS_ADMIN = "is_admin";
+    public static final String USER_IS_BLOCKED = "is_blocked";
+
     private static final long serialVersionUID = 12345L;
 
     private Long id;

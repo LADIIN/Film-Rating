@@ -18,6 +18,10 @@ public class AddReviewCommand implements Command {
     private static final String REVIEW_CONTENT = "reviewContent";
     private static final String FILM_ID = "filmId";
     private static final String USER = "user";
+    private static final String CURRENT_PAGE = "currentPage";
+    private static final String ERROR = "error";
+    private static final String INCORRECT_DATA_ERROR = "film.incorrect.data";
+    private static final int REVIEWS_NEEDED_FOR_UPDATE = 5;
 
     private final ReviewService reviewService;
     private final FilmService filmService;
@@ -40,12 +44,23 @@ public class AddReviewCommand implements Command {
         Long userId = user.getId();
 
         boolean isAdded = reviewService.add(rate, content, filmId, userId);
-        int reviewsOnFilm = reviewService.countFilmReviews(filmId);
-        if (reviewsOnFilm % 5 == 0) {
-            filmService.updateRating(filmId);
-            userService.updateUsersStatusByReviewRate(filmId);
+
+        CommandResult commandResult;
+
+        if (isAdded) {
+            int reviewsOnFilm = reviewService.countFilmReviews(filmId);
+            if (reviewsOnFilm % REVIEWS_NEEDED_FOR_UPDATE == 0) {
+                filmService.updateRating(filmId);
+                userService.updateUsersStatusByReviewRate(filmId);
+            }
+            commandResult = CommandResult.redirect(Pages.FILM_PAGE_REDIRECT + filmId);
+        } else {
+            request.setAttribute(ERROR, INCORRECT_DATA_ERROR);
+            session.setAttribute(CURRENT_PAGE, Pages.FILMS_PAGE_REDIRECT + filmId);
+
+            commandResult = CommandResult.forward(Pages.FILM_PAGE);
         }
 
-        return CommandResult.redirect(Pages.FILM_PAGE_REDIRECT + filmId);
+        return commandResult;
     }
 }

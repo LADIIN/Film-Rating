@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="header-wrapper">
+            <a href="" class="title">Moviefy</a>
+
+            <ul class="header-list">
+                <li>
+                    <a href="#" class="list-item"><i class="fa-solid fa-users"></i> Users</a>
+                </li>
+                <li>
+                    <a href="#" class="list-item"><i class="fa-solid fa-film"></i></i> Movies</a>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <button class="drop-button"><i class='fa fa-language'></i>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#">RU</a>
+                            <a href="#">BY</a>
+                            <a href="#">ENG</a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="list-item"><i class="fa fa-fw fa-user"></i> Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="page">
+    <div class="films-navigation">
+        <!--        <div class="categories-navigation">-->
+        <!--            <a href="#" style="border-bottom: 3px solid red;font-weight: 500">-->
+        <!--                Movies-->
+        <!--            </a>-->
+        <!--            <a href="#">-->
+        <!--                Series-->
+        <!--            </a>-->
+        <!--        </div>-->
+
+        <div class="search-result">
+            Search result:
+        </div>
+
+        <form method="get" action="#">
+            <input type="hidden" name="command" value="search_film"/>
+
+            <div class="search">
+                <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+                <input class="search-input" type="text" name="query"
+                       placeholder="Search.."/>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+</body>
+</html>

@@ -16,39 +16,70 @@
 </head>
 
 <body>
-<%@include file="header.jsp" %>
+<div style="overflow-x:scroll;">
 
-<div class="page">
+    <%@include file="header.jsp" %>
 
-<%--    <div class="search-wrap">--%>
-<%--        <form>--%>
-<%--            <input class="search-input" type="text" name="Search" placeholder="Search...">--%>
-<%--            <button class="search-button" type="submit"><i class="fa fa-search"></i></button>--%>
-<%--        </form>--%>
-<%--    </div>--%>
+    <div class="page">
+        <div class="films-navigation">
+            <div class="categories-navigation">
+                <a href="${pageContext.request.contextPath}/controller?command=main_page&film_type=Movie" style="
+                <c:if test="${film_type.equals('Movie')}">border-bottom: 3px solid #F73A4C;font-weight: 500;</c:if>">
+                    <fmt:message key="section.films" bundle="${content}"/>
+                </a>
+                <a href="${pageContext.request.contextPath}/controller?command=main_page&film_type=Series"
+                   style=" <c:if
+                           test="${film_type.equals('Series')}">border-bottom: 3px solid #F73A4C;font-weight: 500;</c:if>">
+                    <fmt:message key="section.series" bundle="${content}"/>
+                </a>
+            </div>
+            <form method="get" action="${pageContext.request.contextPath}/controller">
+                <input type="hidden" name="command" value="search_film"/>
+                <div class="search">
+                    <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+                    <input class="search-input" type="text" name="query"
+                           placeholder="<fmt:message key="admin.search" bundle="${content}"/>" value="${search_query}">
+                </div>
+            </form>
+        </div>
 
-    <div class="category"><fmt:message key="section.films" bundle="${content}"/></div>
-    <div class="movies-grid">
-        <c:forEach var="movie" items="${movies}" varStatus="loop">
-            <a class="card" href="${pageContext.request.contextPath}/controller?command=film_page&id=${movie.getId()}">
-                <img src="data:image/jpg;base64,${movie.getPosterImage()}" alt="Avatar" style="width:100%">
-                <div class="card-title">${movie.getTitle()}</div>
-                <span class="genre">${movie.getGenre().toString()}</span>
-                <span class="year">${movie.getYear().toString()}</span>
-            </a>
-        </c:forEach>
 
-    </div>
-    <div class="category"><fmt:message key="section.series" bundle="${content}"/></div>
-    <div class="movies-grid">
-        <c:forEach var="series" items="${series}" varStatus="loop">
-            <a class="card" href="${pageContext.request.contextPath}/controller?command=film_page&id=${series.getId()}">
-                <img src="data:image/jpg;base64,${series.getPosterImage()}" alt="Avatar" style="width:100%">
-                <div class="card-title">${series.getTitle()}</div>
-                <span class="genre">${series.getGenre().toString()}</span>
-                <span class="year">${series.getYear().toString()}</span>
-            </a>
-        </c:forEach>
+        <div class="movies-grid">
+            <c:forEach var="film" items="${films}" varStatus="loop">
+                <a class="card"
+                   href="${pageContext.request.contextPath}/controller?command=film_page&id=${film.getId()}">
+                    <img src="data:image/jpg;base64,${film.getPosterImage()}" alt="Avatar" style="width:100%">
+                    <div class="card-title">${film.getTitle()}</div>
+                    <span class="genre">${film.getGenre().getName()}</span>
+                    <span class="year">${film.getYear().toString()}</span>
+                </a>
+            </c:forEach>
+
+        </div>
+
+        <div class="pagination-wrapper">
+            <div class="pagination">
+                <c:if test="${page > 1}">
+                    <a href="${pageContext.request.contextPath}/controller?command=films_page&page=${page - 1}">&laquo;</a>
+                </c:if>
+                <c:if test="${pages > 1}">
+                    <c:forEach var="pageNumber" begin="1" end="${pages}">
+                        <c:choose>
+                            <c:when test="${pageNumber eq page}">
+                                <a class="active">${pageNumber}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${pageContext.request.contextPath}/controller?command=main_page&film_type=${film_type.toString()}&page=${pageNumber}">${pageNumber}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${page < pages}">
+                    <a href="${pageContext.request.contextPath}/controller?command=films_page&film_type=${film_type.toString()}&page=${page + 1}">&raquo;</a>
+                </c:if>
+            </div>
+        </div>
+
     </div>
 </div>
 </body>

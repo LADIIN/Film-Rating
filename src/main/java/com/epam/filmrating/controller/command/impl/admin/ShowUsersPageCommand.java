@@ -3,7 +3,6 @@ package com.epam.filmrating.controller.command.impl.admin;
 import com.epam.filmrating.controller.command.Command;
 import com.epam.filmrating.controller.command.CommandResult;
 import com.epam.filmrating.controller.command.Pages;
-import com.epam.filmrating.controller.command.SessionAttribute;
 import com.epam.filmrating.exception.CommandException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.entity.User;
@@ -15,13 +14,16 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 public class ShowUsersPageCommand implements Command {
-    private final UserService userService;
-
     private static final String USERS = "users";
     private static final String CURRENT_PAGE_NUMBER = "page";
     private static final String PAGES = "pages";
     private static final int USERS_ON_PAGE = 5;
     private static final String USERS_ON_PAGE_ATTRIBUTE = "usersOnPage";
+    public static final String CURRENT_PAGE = "current_page";
+
+    private final UserService userService;
+
+
 
     public ShowUsersPageCommand(UserService userService) {
         this.userService = userService;
@@ -44,7 +46,7 @@ public class ShowUsersPageCommand implements Command {
         session.setAttribute(PAGES, pages);
         session.setAttribute(USERS_ON_PAGE_ATTRIBUTE, USERS_ON_PAGE);
         request.setAttribute(USERS, users);
-        session.setAttribute(SessionAttribute.CURRENT_PAGE, Pages.USERS_PAGE_REDIRECT + currentPage);
+        session.setAttribute(CURRENT_PAGE, Pages.USERS_PAGE_REDIRECT + currentPage);
         return CommandResult.forward(Pages.USERS_PAGE);
     }
 }
