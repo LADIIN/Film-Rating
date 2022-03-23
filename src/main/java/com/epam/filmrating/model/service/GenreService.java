@@ -65,10 +65,4 @@ public class GenreService {
         }
         return genreOptional;
     }
-
-    public static void main(String[] args) throws ServiceException {
-        GenreService genreService = new GenreService();
-        genreService.findAll().forEach(System.out::println);
-
-    }
 }

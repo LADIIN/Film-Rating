@@ -13,7 +13,7 @@ public class ShowLoginPageCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
-        session.setAttribute(CURRENT_PAGE, Pages.LOGIN_PAGE);
+        session.setAttribute(CURRENT_PAGE, Pages.LOGIN_PAGE_REDIRECT);
         return CommandResult.redirect(Pages.LOGIN_PAGE);
     }
 }

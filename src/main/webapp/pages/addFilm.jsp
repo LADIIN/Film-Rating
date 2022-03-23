@@ -20,9 +20,9 @@
         }
     </script>
 
-    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/mouseOnlyNumberInput.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mouseOnlyNumberInput.js"></script>
     <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
-    <title>Moviefy</title>
+    <title>Add film</title>
 </head>
 <body>
 
@@ -106,7 +106,8 @@
                     </li>
                     <li style="max-width: 40%">
                         <span><fmt:message key="film.year" bundle="${content}"/>:</span>
-                        <input id="number-input" class="year-input" name="year" type="number" min="1895" max="${currentYear}"
+                        <input id="number-input" class="year-input" name="year" type="number" min="1895"
+                               max="${currentYear}"
                                step="1"
                                value="2022"/>
                     </li>

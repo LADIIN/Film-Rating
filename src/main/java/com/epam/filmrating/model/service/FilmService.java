@@ -309,9 +309,4 @@ public class FilmService {
         return amount != 0;
     }
 
-    public static void main(String[] args) throws ServiceException {
-        FilmService filmService = new FilmService();
-        filmService.findById(1l).ifPresent(System.out::println);
-
-    }
 }

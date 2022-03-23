@@ -3,7 +3,6 @@ package com.epam.filmrating.controller.command.impl.admin;
 import com.epam.filmrating.controller.command.Command;
 import com.epam.filmrating.controller.command.CommandResult;
 import com.epam.filmrating.controller.command.Pages;
-import com.epam.filmrating.exception.CommandException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.entity.Country;
 import com.epam.filmrating.model.entity.FilmType;
@@ -35,7 +34,7 @@ public class EditFilmCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, CommandException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         Long id = Long.valueOf(request.getParameter(ID));
         String title = request.getParameter(TITLE);
         FilmType type = FilmType.fromString(request.getParameter(TYPE));

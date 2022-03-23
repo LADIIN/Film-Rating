@@ -1,5 +1,6 @@
 package com.epam.filmrating.model.pool;
 
+import com.epam.filmrating.exception.DatabaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ public class ConnectionFactory {
             password = properties.getProperty(PASSWORD_KEY);
         } catch (ClassNotFoundException | IOException e) {
             LOGGER.fatal("Driver class isn't found, it can't be registered", e);
-            throw new RuntimeException("Driver class isn't found", e);
+            throw new DatabaseException("Driver class isn't found", e);
         }
     }
 

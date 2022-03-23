@@ -9,6 +9,7 @@ import com.epam.filmrating.model.entity.Film;
 import com.epam.filmrating.model.entity.Review;
 import com.epam.filmrating.model.entity.User;
 import com.epam.filmrating.model.pool.TransactionManager;
+import com.epam.filmrating.model.validator.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +38,48 @@ public class UserService {
             transactionManager.endTransaction();
         }
         return user;
+    }
+
+    public boolean register(String login, String password, String email) throws ServiceException {
+        boolean isRegistered = false;
+        UserValidator userValidator = new UserValidator();
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+
+            User user = new User.Builder()
+                    .setLogin(login)
+                    .setEmail(email)
+                    .build();
+            if (userValidator.isValid(user, password)) {
+                isRegistered = userDao.add(user, password);
+            }
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return isRegistered;
+    }
+
+    public boolean isUserAlreadyExist(String login, String email) throws ServiceException {
+        int amount;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            UserDaoImpl userDao = new UserDaoImpl(connection);
+            amount = userDao.countUsersWithLoginAndEmail(login, email);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return amount != 0;
     }
 
     public List<User> getAllUsers() throws ServiceException {

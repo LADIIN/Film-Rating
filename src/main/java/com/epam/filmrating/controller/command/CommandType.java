@@ -1,10 +1,7 @@
 package com.epam.filmrating.controller.command;
 
 import com.epam.filmrating.controller.command.impl.admin.*;
-import com.epam.filmrating.controller.command.impl.common.AddReviewCommand;
-import com.epam.filmrating.controller.command.impl.common.LocaleCommand;
-import com.epam.filmrating.controller.command.impl.common.LoginCommand;
-import com.epam.filmrating.controller.command.impl.common.LogoutCommand;
+import com.epam.filmrating.controller.command.impl.common.*;
 import com.epam.filmrating.controller.command.impl.user.*;
 import com.epam.filmrating.model.service.*;
 
@@ -34,10 +31,12 @@ public enum CommandType {
     CHANGE_STATUS(new ChangeStatusCommand(new UserService()), ADMIN),
     CHANGE_ROLE(new ChangeUserRoleCommand(new UserService()), ADMIN),
     SEARCH_USER(new SearchUserCommand(new UserService()), ADMIN),
-    DELETE_REVIEW(new DeleteReviewCommand(new ReviewService()), ADMIN);
+    DELETE_REVIEW(new DeleteReviewCommand(new ReviewService()), ADMIN),
+    REGISTER_PAGE(new ShowRegisterPageCommand(), UNAUTHORIZED, ADMIN, USER),
+    REGISTER(new RegisterCommand(new UserService()), UNAUTHORIZED, ADMIN, USER);
 
     private final Command command;
-    private Set<CommandAccessLevel> accessLevels;
+    private final Set<CommandAccessLevel> accessLevels;
 
     CommandType(Command command, CommandAccessLevel... accessLevels) {
         this.command = command;

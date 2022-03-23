@@ -1,7 +1,6 @@
 package com.epam.filmrating.controller.command.impl.user;
 
 import com.epam.filmrating.controller.command.*;
-import com.epam.filmrating.exception.CommandException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.entity.Film;
 import com.epam.filmrating.model.entity.Review;
@@ -34,7 +33,7 @@ public class ShowFilmPageCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, CommandException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         Long id = Long.valueOf(request.getParameter(ID));
         Optional<Film> filmOptional = filmService.findById(id);

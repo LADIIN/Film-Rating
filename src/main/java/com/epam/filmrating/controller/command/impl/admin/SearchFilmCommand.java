@@ -3,7 +3,6 @@ package com.epam.filmrating.controller.command.impl.admin;
 import com.epam.filmrating.controller.command.Command;
 import com.epam.filmrating.controller.command.CommandResult;
 import com.epam.filmrating.controller.command.Pages;
-import com.epam.filmrating.exception.CommandException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.entity.Film;
 import com.epam.filmrating.model.service.FilmService;
@@ -27,7 +26,7 @@ public class SearchFilmCommand implements Command {
     }
 
     @Override
-    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, CommandException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         String searchQuery = request.getParameter(SEARCH_QUERY);
         session.setAttribute(SEARCH_QUERY, searchQuery);

@@ -13,13 +13,15 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
     <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
-
 </head>
 <body>
 <%@include file="header.jsp" %>
 
 <div class="login-form">
-    <form method="post" action="${pageContext.request.contextPath}/controller">
+    <form id="register" method="get" action="${pageContext.request.contextPath}/controller">
+        <input type="hidden" name="command" value="register_page"/>
+    </form>
+    <form id="login" method="post" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="login"/>
         <h1><fmt:message key="welcome.message" bundle="${content}"/></h1>
         <div class="content">
@@ -41,10 +43,9 @@
             </c:if>
         </div>
         <div class="action">
-            <button type="submit"><fmt:message key="sign.in" bundle="${content}"/></button>
+            <button type="submit" form="register"><fmt:message key="sign.up" bundle="${content}"/></button>
+            <button type="submit" form="login"><fmt:message key="sign.in" bundle="${content}"/></button>
         </div>
-
-
     </form>
 </div>
 </body>

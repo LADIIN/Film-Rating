@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/mouseOnlyNumberInput.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/mouseOnlyNumberInput.js"></script>
 
     <script>
         function showName() {
@@ -32,7 +32,7 @@
         }
     </script>
     <script src="https://kit.fontawesome.com/8972068f93.js" crossorigin="anonymous"></script>
-    <title>Moviefy</title>
+    <title>Edit Film</title>
 </head>
 <body>
 

@@ -1,7 +1,6 @@
 package com.epam.filmrating.controller;
 
 import com.epam.filmrating.controller.command.*;
-import com.epam.filmrating.exception.CommandException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.service.UserService;
 import jakarta.servlet.RequestDispatcher;
@@ -38,7 +37,7 @@ public class ControllerServlet extends HttpServlet {
         try {
             CommandResult result = command.execute(req, resp);
             dispatch(req, resp, result);
-        } catch (ServiceException | CommandException e) {
+        } catch (ServiceException e) {
             req.setAttribute(ERROR, e.getMessage());
             dispatch(req, resp, CommandResult.forward("/pages/error.jsp"));
         }

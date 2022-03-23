@@ -40,7 +40,9 @@ public class PageRedirectFilter implements Filter {
                 Pages.LOGIN_PAGE,
                 Pages.MAIN_PAGE,
                 Pages.FILM_PAGE,
-                Pages.SEARCH_RESULT_MAIN_PAGE
+                Pages.FILMS_PAGE,
+                Pages.SEARCH_RESULT_MAIN_PAGE,
+                Pages.REGISTER_PAGE
         ));
         pages = new HashSet<>();
         pages.addAll(unauthorizedPages);

@@ -6,11 +6,15 @@ import com.epam.filmrating.controller.command.Pages;
 import com.epam.filmrating.exception.ServiceException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-public class LogoutCommand implements Command {
+public class ShowRegisterPageCommand implements Command {
+    public static final String CURRENT_PAGE = "current_page";
+
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        request.getSession().invalidate();
-        return CommandResult.redirect(Pages.LOGIN_PAGE_REDIRECT);
+        HttpSession session = request.getSession();
+        session.setAttribute(CURRENT_PAGE, Pages.REGISTER_PAGE_REDIRECT);
+        return CommandResult.forward(Pages.REGISTER_PAGE);
     }
 }
