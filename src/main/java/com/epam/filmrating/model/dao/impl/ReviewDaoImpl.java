@@ -8,19 +8,39 @@ import com.epam.filmrating.model.entity.Review;
 import java.sql.Connection;
 import java.util.List;
 
+/**
+ * Review DAO.
+ */
 public class ReviewDaoImpl extends AbstractDao<Review> {
+    /**
+     * Table name in database.
+     */
     private static final String TABLE_NAME = "reviews";
-    private static final String SELECT_ALL_BY_FILM_ID = "select * from reviews where is_deleted = false and film_id = ?;";
-    private static final String INSERT_REVIEW = "insert into reviews (film_id, user_id, rate, content) values (?,?,?,?);";
-    private static final String COUNT_FILM_REVIEWS = "select count(*) from reviews where is_deleted = false and film_id = ?;";
-    private static final String SUM_FILM_RATES = "select avg(rate) from reviews where is_deleted = false and film_id = ?";
+    /**
+     * Query to select all reviews on film.
+     */
+    private static final String SELECT_ALL_BY_FILM_ID = "SELECT * FROM reviews WHERE is_deleted = false and film_id = ?;";
+    /**
+     * Query to insert review.
+     */
+    private static final String INSERT_REVIEW = "INSERT INTO reviews (film_id, user_id, rate, content) VALUES (?,?,?,?);";
+    /**
+     * Query to count reviews on film.
+     */
+    private static final String COUNT_FILM_REVIEWS = "SELECT count(*) FROM reviews WHERE is_deleted = false and film_id = ?;";
 
+    /**
+     * Query to select average rate on film.
+     */
+    private static final String SELECT_AVERAGE_RATE = "SELECT avg(rate) FROM reviews WHERE is_deleted = false and film_id = ?";
+
+    /**
+     * Constructor.
+     *
+     * @param connection
+     */
     public ReviewDaoImpl(Connection connection) {
         super(new ReviewRowMapper(), connection, TABLE_NAME);
-    }
-
-    public List<Review> findAllByFilmId(Long id) throws DaoException {
-        return executeSelectQuery(SELECT_ALL_BY_FILM_ID, id);
     }
 
     @Override
@@ -31,12 +51,37 @@ public class ReviewDaoImpl extends AbstractDao<Review> {
                 review.getContent());
     }
 
+    /**
+     * Finding reviews on film.
+     *
+     * @param filmId
+     * @return List of reviews.
+     * @throws DaoException
+     */
+    public List<Review> findAllByFilmId(Long filmId) throws DaoException {
+        return executeSelectQuery(SELECT_ALL_BY_FILM_ID, filmId);
+    }
+
+    /**
+     * Counting all reviews on film.
+     *
+     * @param filmId
+     * @return amount of reviews.
+     * @throws DaoException
+     */
     public int countAllFilmReviews(Long filmId) throws DaoException {
         return executeSelectFunctionQuery(COUNT_FILM_REVIEWS, filmId).intValue();
     }
 
-    public double getAverageFilmRate(Long filmId) throws DaoException {
-        return executeSelectFunctionQuery(SUM_FILM_RATES, filmId).doubleValue();
+    /**
+     * Calculating average film rate.
+     *
+     * @param filmId
+     * @return average film rate
+     * @throws DaoException
+     */
+    public double calculateAverageFilmRate(Long filmId) throws DaoException {
+        return executeSelectFunctionQuery(SELECT_AVERAGE_RATE, filmId).doubleValue();
     }
 
 

@@ -1,4 +1,4 @@
-package com.epam.filmrating.controller.command.impl.user;
+package com.epam.filmrating.controller.command.impl.common;
 
 import com.epam.filmrating.controller.command.*;
 import com.epam.filmrating.exception.ServiceException;
@@ -13,7 +13,11 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * class ShowFilmPageCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ShowFilmPageCommand implements Command {
     public static final String ID = "id";
     public static final String CURRENT_PAGE = "current_page";
@@ -21,11 +25,10 @@ public class ShowFilmPageCommand implements Command {
     private static final String REVIEWS = "reviews";
     private static final String IS_REVIEW_DELETED = "isReviewDeleted";
     private static final String MESSAGE = "message";
-    private static final String REVIEW_DELETED = "Review was deleted.";
+    private static final String REVIEW_DELETED = "review.deleted";
 
     private final FilmService filmService;
     private final ReviewService reviewService;
-
 
     public ShowFilmPageCommand(FilmService filmService, ReviewService reviewService) {
         this.filmService = filmService;
@@ -35,6 +38,7 @@ public class ShowFilmPageCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
+        session.removeAttribute(MESSAGE);
         Long id = Long.valueOf(request.getParameter(ID));
         Optional<Film> filmOptional = filmService.findById(id);
         Film film = filmOptional.orElseThrow(IllegalArgumentException::new);
@@ -47,7 +51,6 @@ public class ShowFilmPageCommand implements Command {
         if (isDeletedObject != null) {
             boolean isDeleted = (boolean) isDeletedObject;
             if (isDeleted) {
-                System.out.println("Message received");
                 session.setAttribute(MESSAGE, REVIEW_DELETED);
                 session.removeAttribute(IS_REVIEW_DELETED);
             }

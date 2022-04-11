@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="${pageContext.request.contextPath}/js/setMessageTimeout.js"></script>
 
-    <title>Film page</title>
+    <title>${film.getTitle()}</title>
 </head>
 
 <body>
@@ -26,7 +26,6 @@
 <div class="page">
     <div class="film-introduction">
         <img src="data:image/jpg;base64,${film.getPosterImage()}" alt="Poster">
-
         <div class="film-information">
             <span class="film-title">${film.getTitle()}</span>
             <table>
@@ -64,7 +63,7 @@
         </div>
     </div>
 
-    <div class="description"><fmt:message key="review.message" bundle="${content}"/></div>
+    <div class="film-section"><fmt:message key="review.message" bundle="${content}"/></div>
 
     <form method="get" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="add_review"/>
@@ -106,63 +105,63 @@
 
             <fmt:message key="review.placeholder" bundle="${content}" var="placeholder"/>
 
-
-            <textarea class="review-textarea" name="reviewContent" placeholder="${placeholder}"></textarea>
+            <textarea class="review-textarea" name="content" placeholder="${placeholder}"></textarea>
 
             <c:if test="${error != null}">
-            <div class="error-message"><fmt:message key="${error}" bundle="${content}"/></div>
+                <div class="error-message"><fmt:message key="${error}" bundle="${content}"/></div>
             </c:if>
 
             <div style="width: 100%;">
                 <button class="submit-button"><fmt:message key="review.submit" bundle="${content}"/></button>
             </div>
+        </div>
     </form>
-</div>
 
+    <div class="film-section"><fmt:message key="reviews" bundle="${content}"/>:</div>
 
-<div class="description"><fmt:message key="reviews" bundle="${content}"/>:</div>
-
-<div class="reviews">
-    <c:if test="${reviews.isEmpty()}">
-        <div class="no-reviews-message"><fmt:message key="reviews.no.reviews" bundle="${content}"/></div>
-    </c:if>
-    <c:forEach var="review" items="${reviews}">
-        <div class="review">
-            <div class="avatar"><img src="${pageContext.request.contextPath}/assets/user-profile.svg" alt="user"
-                                     width="75"></div>
-            <div class="information">
-                <h6 class="username"> ${review.getUser().getLogin()}</h6>
-                <h6 class="rate">
-                    <c:forEach begin="1" end="${review.getRate()}" varStatus="loop">
-                        <i class="fa-solid fa-star star"></i>
-                    </c:forEach>
-                    <c:forEach begin="1" end="${10 - review.getRate()}" varStatus="loop">
-                        <i class="fa-solid fa-star"></i>
-                    </c:forEach>
-                        ${review.getRate()}/10
-
-                </h6>
-                <p class="content">${review.getContent()}</p>
-                <div class="comment-footer">
-                    <c:if test="${user.isAdmin()}">
-                        <a class="delete-button"
-                           href="${pageContext.request.contextPath}/controller?command=delete_review&id=${review.getId()}">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </a>
+    <div class="reviews">
+        <c:if test="${reviews.isEmpty()}">
+            <div class="no-reviews-message"><fmt:message key="reviews.no.reviews" bundle="${content}"/></div>
+        </c:if>
+        <c:forEach var="review" items="${reviews}">
+            <div class="review">
+                <div class="information">
+                    <c:if test="${user.getLogin() eq review.getUser().getLogin()}">
                     </c:if>
+                    <h6 class="username"
+                        <c:if test="${user.getLogin() eq review.getUser().getLogin()}">style="color: #F73A4C" </c:if>>
+                            ${review.getUser().getLogin()}
+                    </h6>
+                    <h6 class="rate">
+                        <c:forEach begin="1" end="${review.getRate()}" varStatus="loop">
+                            <i class="fa-solid fa-star star"></i>
+                        </c:forEach>
+                        <c:forEach begin="1" end="${10 - review.getRate()}" varStatus="loop">
+                            <i class="fa-solid fa-star"></i>
+                        </c:forEach>
+                            ${review.getRate()}/10
 
-                        <%--                    <span class="date">April 14, 2019</span>--%>
+                    </h6>
+                    <p class="content">${review.getContent()}</p>
+                    <div class="comment-footer">
+                        <c:if test="${user.isAdmin()}">
+                            <a class="delete-button"
+                               onclick="return confirm('<fmt:message key="confirm.message" bundle="${content}"/>')"
+                               href="${pageContext.request.contextPath}/controller?command=delete_review&id=${review.getId()}">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </c:if>
+                    </div>
                 </div>
             </div>
-        </div>
-    </c:forEach>
+        </c:forEach>
 
-    <c:if test="${message != null}">
-        <div id="message">${message}</div>
-    </c:if>
+        <c:if test="${message != null}">
+            <div id="message"><fmt:message key="review.deleted" bundle="${content}"/></div>
+        </c:if>
 
+    </div>
 </div>
-
-
+<%@include file="footer.jsp" %>
 </body>
 </html>

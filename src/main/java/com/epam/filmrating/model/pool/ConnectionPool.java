@@ -12,14 +12,38 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Singleton that organizes pool of database connections.
+ */
 public class ConnectionPool {
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LogManager.getLogger();
+    /**
+     * Blocking deque of available proxy connections.
+     */
     private final BlockingDeque<ProxyConnection> availableConnections;
+    /**
+     * Blocking deque of proxy connections in use.
+     */
     private final BlockingDeque<ProxyConnection> connectionsInUse;
+    /**
+     * Reentrant lock for synchronization.
+     */
     private static final ReentrantLock lock = new ReentrantLock();
+    /**
+     * Connection pool instance.
+     */
     private static ConnectionPool instance;
+    /**
+     * Amount of connections in pool.
+     */
     private static final int CONNECTION_POOL_SIZE = 32;
 
+    /**
+     * Private constructor.
+     */
     private ConnectionPool() {
         availableConnections = new LinkedBlockingDeque<>(CONNECTION_POOL_SIZE);
         connectionsInUse = new LinkedBlockingDeque<>(CONNECTION_POOL_SIZE);
@@ -37,23 +61,13 @@ public class ConnectionPool {
         }
     }
 
-    private void createConnections(ConnectionFactory connectionFactory) {
-        Connection connection;
-        for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
-            try {
-                connection = connectionFactory.create();
-                ProxyConnection proxyConnection = new ProxyConnection(connection);
-                boolean isAdded = availableConnections.add(proxyConnection);
-                LOGGER.info("Connection add:{}", isAdded);
-            } catch (SQLException e) {
-                LOGGER.error("Connection wasn't created caused database error.", e);
-            }
-        }
-    }
-
+    /**
+     * Method to get pool of connections.
+     *
+     * @return ConnectionPool
+     */
     public static ConnectionPool getInstance() {
         ConnectionPool localInstance = instance;
-
         if (localInstance == null) {
             lock.lock();
             localInstance = instance;
@@ -69,6 +83,29 @@ public class ConnectionPool {
         return localInstance;
     }
 
+    /**
+     * Creates available connections.
+     *
+     * @param connectionFactory
+     */
+    private void createConnections(ConnectionFactory connectionFactory) {
+        Connection connection;
+        try {
+            for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
+                connection = connectionFactory.create();
+                ProxyConnection proxyConnection = new ProxyConnection(connection);
+                boolean isAdded = availableConnections.add(proxyConnection);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Connection wasn't created caused database error.", e);
+        }
+    }
+
+    /**
+     * Gets available connection.
+     *
+     * @return
+     */
     public Connection getConnection() {
         ProxyConnection connection = null;
         try {
@@ -81,6 +118,11 @@ public class ConnectionPool {
         return connection;
     }
 
+    /**
+     * Returns connection in use.
+     *
+     * @param connection
+     */
     public void returnConnection(Connection connection) {
         if (connection.getClass() == ProxyConnection.class) {
             try {
@@ -95,27 +137,33 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Destroys connection pool.
+     */
     public void destroyPool() {
-        for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
-            try {
+        try {
+            for (int i = 0; i < CONNECTION_POOL_SIZE; i++) {
                 availableConnections.take().reallyClose();
-            } catch (SQLException | InterruptedException throwables) {
-                LOGGER.error("Connection destroying error.");
             }
+        } catch (SQLException | InterruptedException throwables) {
+            LOGGER.error("Connection destroying error.");
         }
         deregisterDrivers();
     }
 
+    /**
+     * Deregister JDBC drivers.
+     */
     private void deregisterDrivers() {
         Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            Driver driver = drivers.nextElement();
-            try {
+        try {
+            while (drivers.hasMoreElements()) {
+                Driver driver = drivers.nextElement();
                 DriverManager.deregisterDriver(driver);
-            } catch (SQLException e) {
-                LOGGER.fatal("Driver wasn't deregistered caused database error.", e);
             }
+        } catch (SQLException e) {
+            LOGGER.fatal("Driver wasn't deregistered caused database error.", e);
         }
-    }
 
+    }
 }

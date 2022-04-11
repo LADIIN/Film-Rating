@@ -2,6 +2,7 @@
 <%@page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom-tag" %>
 
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="locale.content" var="content"/>
@@ -31,7 +32,7 @@
 <div class="page">
     <h1 class="section-tittle"><fmt:message key="films.information" bundle="${content}"/></h1>
 
-    <div class=" navigation">
+    <div class="navigation">
         <form method="get" action="${pageContext.request.contextPath}/controller">
             <input type="hidden" name="command" value="search_film"/>
             <ul>
@@ -50,7 +51,7 @@
 
     <table id="MyTable">
         <thead>
-        <tr class="header">
+        <tr class="head">
             <th style="width:5%;">№</th>
             <th style="width:40%;"><fmt:message key="film.title" bundle="${content}"/></th>
             <th class="column" style="width:20%;"><fmt:message key="film.type" bundle="${content}"/></th>
@@ -80,7 +81,7 @@
                 <td data-label="<fmt:message key="film.Delete" bundle="${content}"/>" class="column">
                     <a class="block-link"
                        href="${pageContext.request.contextPath}/controller?command=delete_film&id=${film.getId()}"
-                       onclick="confirm('Are you sure?')">
+                       onclick="return confirm('<fmt:message key="confirm.message" bundle="${content}"/>')">
                         <i class="fa-solid fa-trash-can"></i>
                     </a>
                 </td>
@@ -101,53 +102,14 @@
         </tbody>
     </table>
 
+    <ctg:pagination currentPage="${page}" uri="${pageContext.request.contextPath}/controller?command=films_page"
+                    elementsOnPage="${filmsOnPage}" elements="${elements}"/>
 
-    <div class="pagination-wrapper">
-        <div class="pagination">
-            <c:if test="${page > 1}">
-                <a href="${pageContext.request.contextPath}/controller?command=films_page&page=${page - 1}">&laquo;</a>
-            </c:if>
-            <c:forEach var="pageNumber" begin="1" end="${pages}">
-                <c:choose>
-                    <c:when test="${pageNumber eq page}">
-                        <a class="active">${pageNumber}</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/controller?command=films_page&page=${pageNumber}">${pageNumber}</a>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-            <c:if test="${page < pages}">
-                <a href="${pageContext.request.contextPath}/controller?command=films_page&page=${page + 1}">&raquo;</a>
-            </c:if>
-        </div>
-    </div>
     <c:if test="${message != null}">
-        <div id="message">${message}</div>
+        <div id="message"><fmt:message key="${message}" bundle="${content}"/></div>
     </c:if>
-
-    <div id="confirm-modal" class="modal">
-                 <span onclick="document.getElementById('confirm-modal').style.display='none'" class="close"
-                       title="Close Modal">&times;</span>
-        <form class="modal-content" action=${pageContext.request.contextPath}/controller>
-            <input type="hidden" name="command" value="delete_film"/>
-            <input type="hidden" name="id" value="${film.getId()}"/>
-
-            <div class="content">
-                <h1>Delete Account</h1>
-                <p>Are you sure you want to delete your account?</p>
-            </div>
-
-            <div class="clearfix">
-                <div class="action">
-                    <button type="submit">Cancel</button>
-                    <button type="submit">Delete</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
 </div>
+<%@include file="footer.jsp" %>
 
 </body>
 </html>

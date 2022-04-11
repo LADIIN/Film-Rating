@@ -106,8 +106,9 @@
     </form>
 
     <div class="action">
-        <button type="submit" form="film-form"><fmt:message key="edit.film.change" bundle="${content}"/></button>
+        <button type="submit" form="film-form"><fmt:message key="edit.film.save" bundle="${content}"/></button>
     </div>
 </div>
+
 </body>
 </html>

@@ -15,7 +15,15 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Overrides doPost and doGet methods by calling custom method processRequest to upload data.
+ *
+ * @author Vladislav Darkovich.
+ */
 public class UploaderServlet extends HttpServlet {
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
     private static final String IMAGE = "image";
     private static final String IMAGE_INPUT_STREAM = "image_input_stream";
@@ -23,46 +31,76 @@ public class UploaderServlet extends HttpServlet {
     public static final String COMMAND = "command";
     public static final String ERROR = "errorMessage";
 
-
+    /**
+     * Called by the server to allow a servlet to handle a GET request.
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
+    /**
+     * Called by the server to allow a servlet to handle a POST upload data request.
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Part part = request.getPart(IMAGE);
         InputStream imageInputStream = part.getInputStream();
         String imageName = part.getSubmittedFileName();
         request.setAttribute(IMAGE_INPUT_STREAM, imageInputStream);
         request.setAttribute(IMAGE_NAME, imageName);
-
         processRequest(request, response);
     }
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String commandName = req.getParameter(COMMAND);
+    /**
+     * Process HttpServletRequest.
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String commandName = request.getParameter(COMMAND);
         LOGGER.info("Command: {}", commandName);
         CommandFactory commandFactory = new CommandFactory();
-        Command command = commandFactory.create(commandName).orElseThrow(IllegalArgumentException::new);
 
         try {
-            CommandResult result = command.execute(req, resp);
-            dispatch(req, resp, result);
-        } catch (ServiceException | CommandException e) {
-            req.setAttribute(ERROR, e.getMessage());
-            dispatch(req, resp, CommandResult.forward("/pages/error.jsp"));
+            Command command = commandFactory.create(commandName).orElseThrow(IllegalArgumentException::new);
+            CommandResult result = command.execute(request, response);
+            dispatch(request, response, result);
+        } catch (ServiceException e) {
+            request.setAttribute(ERROR, e.getMessage());
+            dispatch(request, response, CommandResult.forward("/pages/error.jsp"));
         }
     }
 
-    private void dispatch(HttpServletRequest req, HttpServletResponse resp, CommandResult result) throws ServletException, IOException {
+    /**
+     * Dispatches redirect or forward response corresponding CommandResult.
+     *
+     * @param request
+     * @param response
+     * @param result
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void dispatch(HttpServletRequest request, HttpServletResponse response, CommandResult result) throws ServletException, IOException {
         String page = result.getPage();
         if (!result.isRedirect()) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-            dispatcher.forward(req, resp);
+            dispatcher.forward(request, response);
         } else {
-            resp.sendRedirect(req.getContextPath() + page);
+            response.sendRedirect(request.getContextPath() + page);
         }
     }
 }

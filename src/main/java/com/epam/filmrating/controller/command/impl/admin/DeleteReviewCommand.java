@@ -8,6 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * class DeleteReviewCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class DeleteReviewCommand implements Command {
     private static final String ID = "id";
     public static final String CURRENT_PAGE = "current_page";

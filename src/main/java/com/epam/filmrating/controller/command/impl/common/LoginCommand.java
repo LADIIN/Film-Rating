@@ -11,6 +11,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
 
+/**
+ * class LoginCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class LoginCommand implements Command {
     private static final String LOGIN_ERROR = "login.error";
     private static final String USER_BLOCKED_MESSAGE = "user.blocked.message";

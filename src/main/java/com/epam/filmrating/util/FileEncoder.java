@@ -6,8 +6,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 
+/**
+ * Encodes file with {@link Base64} encoder.
+ */
 public class FileEncoder {
 
+    /**
+     * Encodes file to String.
+     *
+     * @param filepath
+     * @return encoded file.
+     */
     public String encode(String filepath) {
         String encodedString = null;
         try {

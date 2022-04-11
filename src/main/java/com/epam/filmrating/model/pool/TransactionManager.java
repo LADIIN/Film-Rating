@@ -7,14 +7,34 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * Singleton that organizes database transactions.
+ */
 public class TransactionManager {
+    /**
+     * Logger.
+     */
     private static final Logger LOGGER = LogManager.getLogger(TransactionManager.class);
+    /**
+     * Singleton instance.
+     */
     private static TransactionManager instance;
+    /**
+     * Thread local connection.
+     */
     private final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<>();
 
+    /**
+     * Constructor.
+     */
     private TransactionManager() {
     }
 
+    /**
+     * Method to get TransactionManager instance.
+     *
+     * @return TransactionManager
+     */
     public static TransactionManager getInstance() {
         if (instance == null) {
             instance = new TransactionManager();
@@ -22,6 +42,11 @@ public class TransactionManager {
         return instance;
     }
 
+    /**
+     * Initializes database transaction.
+     *
+     * @throws TransactionException
+     */
     public void initializeTransaction() throws TransactionException {
         if (connectionThreadLocal.get() == null) {
             try {
@@ -38,6 +63,12 @@ public class TransactionManager {
         }
     }
 
+    /**
+     * Returns database connection.
+     *
+     * @return Connection
+     * @throws TransactionException
+     */
     public Connection getConnection() throws TransactionException {
         Connection connection = connectionThreadLocal.get();
         if (connection == null) {
@@ -46,6 +77,9 @@ public class TransactionManager {
         return connection;
     }
 
+    /**
+     * Ends database transaction.
+     */
     public void endTransaction() {
         Connection connection = connectionThreadLocal.get();
         if (connection != null) {
@@ -64,6 +98,11 @@ public class TransactionManager {
         }
     }
 
+    /**
+     * Commits database transaction.
+     *
+     * @throws TransactionException
+     */
     public void commit() throws TransactionException {
         Connection connection = connectionThreadLocal.get();
         if (connection == null) {
@@ -77,6 +116,9 @@ public class TransactionManager {
         }
     }
 
+    /**
+     * Rollbacks database transaction.
+     */
     public void rollback() {
         Connection connection = connectionThreadLocal.get();
         if (connection != null) {

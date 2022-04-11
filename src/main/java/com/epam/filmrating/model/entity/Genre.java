@@ -2,15 +2,42 @@ package com.epam.filmrating.model.entity;
 
 import java.io.Serializable;
 
+/**
+ * Genre of Film.
+ *
+ * @author Vladisalv Darkovich.
+ */
 public class Genre implements Identifiable, Serializable {
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 2870689670316821374L;
+
+    /**
+     * ID.
+     */
     private Long id;
+    /**
+     * Name.
+     */
     private String name;
 
+    /**
+     * Constructor with id and name.
+     *
+     * @param id
+     * @param name
+     */
     public Genre(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     * Constructor with name.
+     *
+     * @param name
+     */
     public Genre(String name) {
         this.name = name;
     }
@@ -55,9 +82,6 @@ public class Genre implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return "Genre{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return String.format("Genre: {id = %d, name = %s }", id, name);
     }
 }

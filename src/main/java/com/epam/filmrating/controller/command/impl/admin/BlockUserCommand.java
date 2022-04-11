@@ -7,6 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * class BlockUserCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class BlockUserCommand implements Command {
     private static final String CURRENT_PAGE_NUMBER = "page";
     public static final String ID = "id";

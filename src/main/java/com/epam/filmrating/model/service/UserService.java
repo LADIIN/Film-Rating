@@ -3,7 +3,6 @@ package com.epam.filmrating.model.service;
 import com.epam.filmrating.exception.DaoException;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.exception.TransactionException;
-import com.epam.filmrating.model.dao.impl.FilmDaoImpl;
 import com.epam.filmrating.model.dao.impl.UserDaoImpl;
 import com.epam.filmrating.model.entity.Film;
 import com.epam.filmrating.model.entity.Review;
@@ -17,12 +16,23 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Provides access to {@link UserDaoImpl} and operations with {@link User}.
+ */
 public class UserService {
-    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private static final int RAISE_VALUE = 1;
-
+    /**
+     * Transaction manager.
+     */
     private final TransactionManager transactionManager = TransactionManager.getInstance();
 
+    /**
+     * Returns {@link User} if login and password are valid.
+     *
+     * @param login
+     * @param password
+     * @return {@link Optional} of {@link User}
+     * @throws ServiceException
+     */
     public Optional<User> login(String login, String password) throws ServiceException {
         Optional<User> user;
         try {
@@ -40,6 +50,15 @@ public class UserService {
         return user;
     }
 
+    /**
+     * Register {@link User}.
+     *
+     * @param login
+     * @param password
+     * @param email
+     * @return true if is registered and false otherwise.
+     * @throws ServiceException
+     */
     public boolean register(String login, String password, String email) throws ServiceException {
         boolean isRegistered = false;
         UserValidator userValidator = new UserValidator();
@@ -65,13 +84,21 @@ public class UserService {
         return isRegistered;
     }
 
+    /**
+     * Checks is user with login or email exists.
+     *
+     * @param login
+     * @param email
+     * @return true if exist and false otherwise.
+     * @throws ServiceException
+     */
     public boolean isUserAlreadyExist(String login, String email) throws ServiceException {
         int amount;
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             UserDaoImpl userDao = new UserDaoImpl(connection);
-            amount = userDao.countUsersWithLoginAndEmail(login, email);
+            amount = userDao.countUsersWithLoginOrEmail(login, email);
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -82,23 +109,13 @@ public class UserService {
         return amount != 0;
     }
 
-    public List<User> getAllUsers() throws ServiceException {
-        List<User> users;
-        try {
-            transactionManager.initializeTransaction();
-            Connection connection = transactionManager.getConnection();
-            UserDaoImpl userDao = new UserDaoImpl(connection);
-            users = userDao.findAll();
-            transactionManager.commit();
-        } catch (TransactionException | DaoException e) {
-            transactionManager.rollback();
-            throw new ServiceException(e.getMessage());
-        } finally {
-            transactionManager.endTransaction();
-        }
-        return users;
-    }
-
+    /**
+     * Finds {@link User} by ID.
+     *
+     * @param id
+     * @return {@link Optional} of {@link User}
+     * @throws ServiceException
+     */
     public Optional<User> findById(Long id) throws ServiceException {
         Optional<User> userOptional = Optional.empty();
         try {
@@ -116,6 +133,13 @@ public class UserService {
         return userOptional;
     }
 
+    /**
+     * Sets user block status.
+     *
+     * @param id
+     * @return true if is updated and false otherwise.
+     * @throws ServiceException
+     */
     public boolean setBlockStatus(Long id) throws ServiceException {
         boolean isUpdated = false;
         try {
@@ -140,6 +164,14 @@ public class UserService {
         return isUpdated;
     }
 
+    /**
+     * Finds group of users for page.
+     *
+     * @param currentPage
+     * @param usersOnPage
+     * @return {@link List} of {@link User}
+     * @throws ServiceException
+     */
     public List<User> findGroupForPage(int currentPage, int usersOnPage) throws ServiceException {
         List<User> users;
         try {
@@ -151,15 +183,19 @@ public class UserService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Finding group of users error caused by ", e);
-            throw new ServiceException("Finding group of users error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return users;
     }
 
-
+    /**
+     * Returns amount of users.
+     *
+     * @return int
+     * @throws ServiceException
+     */
     public int countUsers() throws ServiceException {
         int amount = 0;
         try {
@@ -170,14 +206,20 @@ public class UserService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Counting all users error caused by ", e);
-            throw new ServiceException("Counting all users error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return amount;
     }
 
+    /**
+     * Raises user status.
+     *
+     * @param userId
+     * @param status
+     * @throws ServiceException
+     */
     public void raiseStatusById(Long userId, int status) throws ServiceException {
         try {
             transactionManager.initializeTransaction();
@@ -193,7 +235,13 @@ public class UserService {
         }
     }
 
-
+    /**
+     * Updates user status by review rate. If integer part of films rating equals to user review rate,
+     * user status raises.
+     *
+     * @param filmId
+     * @throws ServiceException
+     */
     public void updateUsersStatusByReviewRate(Long filmId) throws ServiceException {
         FilmService filmService = new FilmService();
         ReviewService reviewService = new ReviewService();
@@ -206,11 +254,18 @@ public class UserService {
         List<Review> reviews = reviewService.findAllByFilmId(filmId);
         for (Review review : reviews) {
             if (review.getRate() == (int) rating) {
-                userService.raiseStatusById(review.getUserId(), RAISE_VALUE);
+                userService.raiseStatusById(review.getUserId(), 1);
             }
         }
     }
 
+    /**
+     * Changes user role.
+     *
+     * @param id
+     * @return true id is changed and false otherwise.
+     * @throws ServiceException
+     */
     public boolean changeRole(Long id) throws ServiceException {
         boolean isUpdated = false;
         try {
@@ -235,12 +290,21 @@ public class UserService {
         return isUpdated;
     }
 
+    /**
+     * Changes user status.
+     *
+     * @param id
+     * @param status
+     * @return true if is changed and false otherwise.
+     * @throws ServiceException
+     */
     public boolean changeStatus(Long id, int status) throws ServiceException {
+        boolean isUpdated = false;
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             UserDaoImpl userDao = new UserDaoImpl(connection);
-            userDao.updateStatus(id, status);
+            isUpdated = userDao.updateStatus(id, status);
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -248,9 +312,16 @@ public class UserService {
         } finally {
             transactionManager.endTransaction();
         }
-        return true;
+        return isUpdated;
     }
 
+    /**
+     * Searches users by login.
+     *
+     * @param login
+     * @return {@link List} of {@link User}
+     * @throws ServiceException
+     */
     public List<User> searchUsersByLogin(String login) throws ServiceException {
         List<User> users;
         try {

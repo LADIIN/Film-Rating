@@ -8,8 +8,6 @@ import com.epam.filmrating.model.entity.*;
 import com.epam.filmrating.model.pool.TransactionManager;
 import com.epam.filmrating.model.validator.FilmValidator;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +17,27 @@ import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Provides access to {@link FilmDaoImpl} and operations with {@link Film}.
+ */
 public class FilmService {
-    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
+    /**
+     * Transaction manager.
+     */
     private final TransactionManager transactionManager = TransactionManager.getInstance();
+    /**
+     * Directory path where all film poster will be saved.
+     */
     private static final String POSTERS_DIRECTORY =
             "C:\\Users\\ACER\\IdeaProjects\\Java Development Course\\Film-Rating\\src\\main\\webapp\\assets\\posters\\";
     private static final int MAX_SIZE_IMAGE = 1024 * 1024 * 10;
 
-
+    /**
+     * Finds all films.
+     *
+     * @return {@link List} of {@link Film}.
+     * @throws ServiceException
+     */
     public List<Film> findAllFilms() throws ServiceException {
         List<Film> films;
         GenreService genreService = new GenreService();
@@ -36,58 +47,50 @@ public class FilmService {
             Connection connection = transactionManager.getConnection();
             FilmDaoImpl filmDao = new FilmDaoImpl(connection);
             films = filmDao.findAll();
-
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Finding all films error caused by ", e);
-            throw new ServiceException("Finding all films error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return films;
     }
 
+    /**
+     * Finds film by Id.
+     *
+     * @param id
+     * @return {@link Optional} of {@link Film}
+     * @throws ServiceException
+     */
     public Optional<Film> findById(Long id) throws ServiceException {
         Optional<Film> filmOptional;
-        GenreService genreService = new GenreService();
-
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             FilmDaoImpl filmDao = new FilmDaoImpl(connection);
             filmOptional = filmDao.findById(id);
-
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Finding movies error caused by ", e);
-            throw new ServiceException("Finding movies error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return filmOptional;
-
     }
 
-    public List<Film> findByType(FilmType type) throws ServiceException {
-        List<Film> movies;
-        try {
-            transactionManager.initializeTransaction();
-            Connection connection = transactionManager.getConnection();
-            FilmDaoImpl filmDao = new FilmDaoImpl(connection);
-            movies = filmDao.findByType(type);
-            transactionManager.commit();
-        } catch (TransactionException | DaoException e) {
-            transactionManager.rollback();
-            LOGGER.error("Finding movies error caused by ", e);
-            throw new ServiceException("Finding movies error caused by ", e);
-        } finally {
-            transactionManager.endTransaction();
-        }
-        return movies;
-    }
 
+    /**
+     * Finds films for page by {@link FilmType}.
+     *
+     * @param type
+     * @param currentPage
+     * @param filmsOnPage
+     * @return {@link List} of {@link Film}
+     * @throws ServiceException
+     */
     public List<Film> findByTypeForPage(FilmType type, int currentPage, int filmsOnPage) throws ServiceException {
         List<Film> movies;
         try {
@@ -99,14 +102,20 @@ public class FilmService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Finding movies error caused by ", e);
-            throw new ServiceException("Finding movies error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return movies;
     }
 
+    /**
+     * Deletes {@link Film} by ID.
+     *
+     * @param id
+     * @return true if is deleted and false otherwise.
+     * @throws ServiceException
+     */
     public boolean deleteFilm(Long id) throws ServiceException {
         boolean isDeleted = false;
         try {
@@ -117,14 +126,21 @@ public class FilmService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Finding movies error caused by ", e);
-            throw new ServiceException("Finding movies error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return isDeleted;
     }
 
+    /**
+     * Finds group of films for page.
+     *
+     * @param currentPage
+     * @param filmsOnPage
+     * @return {@link List} of {@link Film}
+     * @throws ServiceException
+     */
     public List<Film> findGroupForPage(int currentPage, int filmsOnPage) throws ServiceException {
         List<Film> films;
         try {
@@ -136,14 +152,19 @@ public class FilmService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Finding group of films error caused by ", e);
-            throw new ServiceException("Finding group of films error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return films;
     }
 
+    /**
+     * Returns amount of films
+     *
+     * @return int
+     * @throws ServiceException
+     */
     public int countFilms() throws ServiceException {
         int amount = 0;
         try {
@@ -154,14 +175,20 @@ public class FilmService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Counting all films error caused by ", e);
-            throw new ServiceException("Counting all films error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return amount;
     }
 
+    /**
+     * Returns amount of films of {@link FilmType}.
+     *
+     * @param filmType
+     * @return int
+     * @throws ServiceException
+     */
     public int countFilmsOfType(FilmType filmType) throws ServiceException {
         int amount = 0;
         try {
@@ -172,14 +199,27 @@ public class FilmService {
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
-            LOGGER.error("Counting all films error caused by ", e);
-            throw new ServiceException("Counting all films error caused by ", e);
+            throw new ServiceException(e.getMessage());
         } finally {
             transactionManager.endTransaction();
         }
         return amount;
     }
 
+    /**
+     * Adds {@link Film}.
+     *
+     * @param title
+     * @param type
+     * @param genre
+     * @param year
+     * @param director
+     * @param country
+     * @param posterName
+     * @param inputStream
+     * @return true if is added and false otherwise.
+     * @throws ServiceException
+     */
     public boolean addFilm(String title, FilmType type, Genre genre, Year year, String director,
                            Country country, String posterName, InputStream inputStream) throws ServiceException {
         boolean isAdded = false;
@@ -188,7 +228,6 @@ public class FilmService {
             Connection connection = transactionManager.getConnection();
             FilmDaoImpl filmDao = new FilmDaoImpl(connection);
             FilmValidator filmValidator = new FilmValidator();
-
             String posterPath = POSTERS_DIRECTORY + posterName;
             Film film = new Film.Builder()
                     .setTitle(title)
@@ -213,12 +252,33 @@ public class FilmService {
         return isAdded;
     }
 
-    public void uploadFile(InputStream inputStream, String filePath) throws IOException {
+    /**
+     * Uploads image file.
+     *
+     * @param inputStream
+     * @param filePath
+     * @throws IOException
+     */
+    private void uploadFile(InputStream inputStream, String filePath) throws IOException {
         File file = new File(filePath);
         FileUtils.copyInputStreamToFile(inputStream, file);
     }
 
-    //TODO:FIX FILE UPLOAD
+    /**
+     * Edits {@link Film}.
+     *
+     * @param id
+     * @param title
+     * @param type
+     * @param genre
+     * @param year
+     * @param director
+     * @param country
+     * @param posterName
+     * @param inputStream
+     * @return true if is edited and false otherwise.
+     * @throws ServiceException
+     */
     public boolean editFilm(Long id, String title, FilmType type, Genre genre, Year year, String director,
                             Country country, String posterName, InputStream inputStream) throws ServiceException {
         boolean isEdited = false;
@@ -258,6 +318,13 @@ public class FilmService {
         return isEdited;
     }
 
+    /**
+     * Updates rating.
+     *
+     * @param filmId
+     * @return true if is updated and false otherwise.
+     * @throws ServiceException
+     */
     public boolean updateRating(Long filmId) throws ServiceException {
         ReviewService reviewService = new ReviewService();
         try {
@@ -274,31 +341,20 @@ public class FilmService {
         return true;
     }
 
+    /**
+     * Searches films by title.
+     *
+     * @param title
+     * @return {@link List} of {@link Film}
+     * @throws ServiceException
+     */
     public List<Film> searchByTitle(String title) throws ServiceException {
-        List<Film> movies;
+        List<Film> films;
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             FilmDaoImpl filmDao = new FilmDaoImpl(connection);
-            movies = filmDao.searchByTitle(title);
-            transactionManager.commit();
-        } catch (TransactionException | DaoException e) {
-            transactionManager.rollback();
-            LOGGER.error("Finding movies error caused by ", e);
-            throw new ServiceException("Finding movies error caused by ", e);
-        } finally {
-            transactionManager.endTransaction();
-        }
-        return movies;
-    }
-
-    public boolean isFilmAlreadyExist(String title, Long id) throws ServiceException {
-        int amount = 0;
-        try {
-            transactionManager.initializeTransaction();
-            Connection connection = transactionManager.getConnection();
-            FilmDaoImpl filmDao = new FilmDaoImpl(connection);
-            amount = filmDao.isFilmAlreadyExists(title, id).intValue();
+            films = filmDao.searchByTitle(title);
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -306,7 +362,31 @@ public class FilmService {
         } finally {
             transactionManager.endTransaction();
         }
-        return amount != 0;
+        return films;
+    }
+
+    /**
+     * Returns top of films by rating.
+     *
+     * @param ratingSize
+     * @return {@link List} of {@link Film}
+     * @throws ServiceException
+     */
+    public List<Film> createRating(int ratingSize) throws ServiceException {
+        List<Film> films;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            FilmDaoImpl filmDao = new FilmDaoImpl(connection);
+            films = filmDao.getTopByRating(ratingSize);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        } finally {
+            transactionManager.endTransaction();
+        }
+        return films;
     }
 
 }

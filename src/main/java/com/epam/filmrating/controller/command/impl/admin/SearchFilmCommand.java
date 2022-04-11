@@ -12,6 +12,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
+/**
+ * class SearchFilmCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class SearchFilmCommand implements Command {
     private static final String SEARCH_QUERY = "query";
     private static final String FILMS = "films";

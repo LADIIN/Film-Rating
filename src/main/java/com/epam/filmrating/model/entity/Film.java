@@ -3,6 +3,9 @@ package com.epam.filmrating.model.entity;
 import java.io.Serializable;
 import java.time.Year;
 
+/**
+ * Film entity.
+ */
 public class Film implements Identifiable, Serializable {
     public static final String FILM_ID = "id";
     public static final String TYPE = "type";
@@ -18,15 +21,45 @@ public class Film implements Identifiable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * ID.
+     */
     private Long id;
+    /**
+     * Title.
+     */
     private String title;
+    /**
+     * Type.
+     */
     private FilmType type;
+    /**
+     * Genre.
+     */
     private Genre genre;
+    /**
+     * Year.
+     */
     private Year year;
+    /**
+     * Director.
+     */
     private String director;
+    /**
+     * Country.
+     */
     private Country country;
+    /**
+     * Rating.
+     */
     private double rating;
+    /**
+     * PosterPath.
+     */
     private String posterPath;
+    /**
+     * Encoded poster image.
+     */
     private String posterImage;
 
     @Override
@@ -76,87 +109,165 @@ public class Film implements Identifiable, Serializable {
         return stringBuilder.toString();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public FilmType getType() {
-        return type;
-    }
-
-    public void setType(FilmType type) {
-        this.type = type;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public Year getYear() {
-        return year;
-    }
-
-    public void setYear(Year year) {
-        this.year = year;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
-    }
-
-    public String getPosterImage() {
-        return posterImage;
-    }
-
-    public void setPosterImage(String posterImage) {
-        this.posterImage = posterImage;
-    }
-
     @Override
     public Long getId() {
         return id;
     }
 
+    /**
+     * Setting id.
+     *
+     * @param id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Setting title.
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return genre
+     */
+    public Genre getGenre() {
+        return genre;
+    }
+
+    /**
+     * @return type
+     */
+    public FilmType getType() {
+        return type;
+    }
+
+    /**
+     * Setting type.
+     *
+     * @param type
+     */
+    public void setType(FilmType type) {
+        this.type = type;
+    }
+
+    /**
+     * Setting genre.
+     *
+     * @param genre
+     */
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    /**
+     * @return year
+     */
+    public Year getYear() {
+        return year;
+    }
+
+    /**
+     * Setting year.
+     *
+     * @param year
+     */
+    public void setYear(Year year) {
+        this.year = year;
+    }
+
+    /**
+     * @return director
+     */
+    public String getDirector() {
+        return director;
+    }
+
+    /**
+     * Setting director.
+     *
+     * @param director
+     */
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    /**
+     * @return country
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * Setting country.
+     *
+     * @param country
+     */
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    /**
+     * @return rating
+     */
+    public double getRating() {
+        return rating;
+    }
+
+    /**
+     * Setting rating
+     *
+     * @param rating
+     */
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * @return posterPath
+     */
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    /**
+     * Setting poster path.
+     *
+     * @param posterPath
+     */
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    /**
+     * @return posterImage
+     */
+    public String getPosterImage() {
+        return posterImage;
+    }
+
+    /**
+     * @param posterImage
+     */
+    public void setPosterImage(String posterImage) {
+        this.posterImage = posterImage;
+    }
+
+    /**
+     * Film Builder.
+     */
     public static class Builder {
         private Film film;
 

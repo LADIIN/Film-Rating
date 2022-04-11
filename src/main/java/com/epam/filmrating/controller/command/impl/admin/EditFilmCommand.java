@@ -10,10 +10,16 @@ import com.epam.filmrating.model.entity.Genre;
 import com.epam.filmrating.model.service.FilmService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.InputStream;
 import java.time.Year;
 
+/**
+ * class EditFilmCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class EditFilmCommand implements Command {
     private static final String ID = "id";
     public static final String TYPE = "type";
@@ -26,6 +32,8 @@ public class EditFilmCommand implements Command {
     private static final String IMAGE_NAME = "image_name";
     private static final String ERROR_MESSAGE = "error";
     private static final String INCORRECT_DATA_ERROR = "Incorrect film data.";
+    public static final String MESSAGE = "message";
+    public static final String FILM_EDITED = "film.changes.saved";
 
     private final FilmService filmService;
 
@@ -35,6 +43,7 @@ public class EditFilmCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        HttpSession session = request.getSession();
         Long id = Long.valueOf(request.getParameter(ID));
         String title = request.getParameter(TITLE);
         FilmType type = FilmType.fromString(request.getParameter(TYPE));
@@ -51,6 +60,7 @@ public class EditFilmCommand implements Command {
         boolean isEdited = filmService.editFilm(id, title, type, genre, year, director, country, fileName, inputStream);
 
         if (isEdited) {
+            session.setAttribute(MESSAGE, FILM_EDITED);
             commandResult = CommandResult.redirect(Pages.FILMS_PAGE_REDIRECT + currentPage);
         } else {
             request.setAttribute(ERROR_MESSAGE, INCORRECT_DATA_ERROR);

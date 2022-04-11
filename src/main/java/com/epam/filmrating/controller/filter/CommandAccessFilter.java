@@ -11,10 +11,23 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Filter for commands by access level.
+ * @author Vladislav Darkovich
+ */
+
 public class CommandAccessFilter implements Filter {
     private static final String USER = "user";
     private static final String COMMAND = "command";
 
+    /**
+     * Checks is command accessible for user.
+     * @param servletRequest
+     * @param servletResponse
+     * @param filterChain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
@@ -43,6 +56,11 @@ public class CommandAccessFilter implements Filter {
         }
     }
 
+    /**
+     * Checks is commandName valid.
+     * @param commandName
+     * @return true if such command exist and false otherwise.
+     */
     private boolean isCommandValid(String commandName) {
         return commandName != null && Arrays.stream(CommandType.values())
                 .anyMatch(commandType -> commandType.name().equalsIgnoreCase(commandName));

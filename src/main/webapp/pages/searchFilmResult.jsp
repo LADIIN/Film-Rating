@@ -46,7 +46,8 @@
 
         <c:otherwise>
             <table id="MyTable">
-                <tr class="header">
+                <thead>
+                <tr class="head">
                     <th style="width:5%;">№</th>
                     <th style="width:40%;"><fmt:message key="film.title" bundle="${content}"/></th>
                     <th class="column" style="width:20%;"><fmt:message key="film.type" bundle="${content}"/></th>
@@ -55,28 +56,38 @@
                     <th class="column" style="width:10%"><fmt:message key="film.edit" bundle="${content}"/></th>
                     <th class="column" style="width:10%"><fmt:message key="film.Delete" bundle="${content}"/></th>
                 </tr>
-
+                </thead>
+                <tbody>
                 <c:forEach var="film" items="${films}" varStatus="loop">
                     <tr class="row">
-                        <td class="column">${loop.index + 1}</td>
-                        <td class="column-left">
+                        <td data-label="№">${loop.index + 1 + (page - 1) * filmsOnPage}</td>
+                        <td data-label="<fmt:message key="film.title" bundle="${content}"/>" class="column-left">
                             <a class="film-link"
                                href="${pageContext.request.contextPath}/controller?command=film_page&id=${film.getId()}">
                                     ${film.getTitle()}</a></td>
-                        <td class="column">${film.getType().toString()}</td>
-                        <td class="column">${film.getGenre().getName()}</td>
-                        <td class="column">${film.getRating()}</td>
-                        <td class="column"><a
-                                href="${pageContext.request.contextPath}/controller?command=edit_film_page&id=${film.getId()}"
-                                class="edit-link"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <td class="column"><a
-                                href="${pageContext.request.contextPath}/controller?command=delete_film&id=${film.getId()}"
-                                class="block-link"><i class="fa-solid fa-trash-can"></i></a></td>
+                        <td data-label="<fmt:message key="film.type" bundle="${content}"/>"
+                            class="column">${film.getType().toString()}</td>
+                        <td data-label="<fmt:message key="film.genre" bundle="${content}"/>"
+                            class="column">${film.getGenre().getName()}</td>
+                        <td data-label="<fmt:message key="film.rating" bundle="${content}"/>"
+                            class="column">${film.getRating()}</td>
+                        <td data-label="<fmt:message key="film.edit" bundle="${content}"/>" class="column">
+                            <a href="${pageContext.request.contextPath}/controller?command=edit_film_page&id=${film.getId()}"
+                               class="edit-link"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <td data-label="<fmt:message key="film.Delete" bundle="${content}"/>" class="column">
+                            <a class="block-link"
+                               href="${pageContext.request.contextPath}/controller?command=delete_film&id=${film.getId()}"
+                               onclick="return confirm('<fmt:message key="confirm.message" bundle="${content}"/>')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </td>
                     </tr>
                 </c:forEach>
+                </tbody>
             </table>
         </c:otherwise>
     </c:choose>
 </div>
+<%@include file="footer.jsp" %>
 </body>
 </html>

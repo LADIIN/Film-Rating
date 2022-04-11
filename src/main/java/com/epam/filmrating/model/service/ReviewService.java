@@ -15,17 +15,29 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Provides access to {@link ReviewDaoImpl} and operations with {@link Review}.
+ */
 public class ReviewService {
-    private static final Logger LOGGER = LogManager.getLogger(ReviewService.class);
+    /**
+     * Transaction manager.
+     */
     private final TransactionManager transactionManager = TransactionManager.getInstance();
 
-    public List<Review> findAllByFilmId(Long id) throws ServiceException {
+    /**
+     * Finds all reviews on film.
+     *
+     * @param filmId
+     * @return {@link List} of {@link Review}
+     * @throws ServiceException
+     */
+    public List<Review> findAllByFilmId(Long filmId) throws ServiceException {
         List<Review> reviews;
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             ReviewDaoImpl reviewDao = new ReviewDaoImpl(connection);
-            reviews = reviewDao.findAllByFilmId(id);
+            reviews = reviewDao.findAllByFilmId(filmId);
             UserService userService = new UserService();
             for (Review review : reviews) {
                 Optional<User> userOptional = userService.findById(review.getUserId());
@@ -42,11 +54,19 @@ public class ReviewService {
         return reviews;
     }
 
-    //TODO:ADD validator
+    /**
+     * Adds review on film.
+     *
+     * @param rate
+     * @param content
+     * @param filmId
+     * @param userId
+     * @return true if is added and false otherwise.
+     * @throws ServiceException
+     */
     public boolean add(int rate, String content, Long filmId, Long userId) throws ServiceException {
         boolean isAdded = false;
         ReviewValidator reviewValidator = new ReviewValidator();
-
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
@@ -71,6 +91,13 @@ public class ReviewService {
         return isAdded;
     }
 
+    /**
+     * Returns amount of reviews on film.
+     *
+     * @param filmId
+     * @return int
+     * @throws ServiceException
+     */
     public int countFilmReviews(Long filmId) throws ServiceException {
         int amount = 0;
         try {
@@ -88,13 +115,20 @@ public class ReviewService {
         return amount;
     }
 
+    /**
+     * Return average film reviews rate.
+     *
+     * @param filmId
+     * @return double
+     * @throws ServiceException
+     */
     public double getAverageFilmRate(Long filmId) throws ServiceException {
         double averageRate = 0;
         try {
             transactionManager.initializeTransaction();
             Connection connection = transactionManager.getConnection();
             ReviewDaoImpl reviewDao = new ReviewDaoImpl(connection);
-            averageRate = reviewDao.getAverageFilmRate(filmId);
+            averageRate = reviewDao.calculateAverageFilmRate(filmId);
             transactionManager.commit();
         } catch (TransactionException | DaoException e) {
             transactionManager.rollback();
@@ -105,6 +139,12 @@ public class ReviewService {
         return averageRate;
     }
 
+    /**
+     * Deletes review.
+     * @param id
+     * @return true if is deleted and false otherwise.
+     * @throws ServiceException
+     */
     public boolean deleteReview(Long id) throws ServiceException {
         boolean isDeleted = false;
         try {

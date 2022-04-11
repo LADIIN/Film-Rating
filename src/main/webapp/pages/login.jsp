@@ -18,10 +18,10 @@
 <%@include file="header.jsp" %>
 
 <div class="login-form">
-    <form id="register" method="get" action="${pageContext.request.contextPath}/controller">
+    <form id="register" method="GET" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="register_page"/>
     </form>
-    <form id="login" method="post" action="${pageContext.request.contextPath}/controller">
+    <form id="login" method="POST" action="${pageContext.request.contextPath}/controller">
         <input type="hidden" name="command" value="login"/>
         <h1><fmt:message key="welcome.message" bundle="${content}"/></h1>
         <div class="content">

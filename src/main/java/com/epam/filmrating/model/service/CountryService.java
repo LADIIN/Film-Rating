@@ -13,26 +13,21 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Provides access to {@link CountryDaoImpl} and operations with {@link Country}.
+ */
 public class CountryService {
+    /**
+     * Transaction manager.
+     */
     private final TransactionManager transactionManager = TransactionManager.getInstance();
 
-    public Optional<Country> findByFilmId(Long filmId) throws ServiceException {
-        Optional<Country> countryOptional;
-        try {
-            transactionManager.initializeTransaction();
-            Connection connection = transactionManager.getConnection();
-            CountryDaoImpl countryDao = new CountryDaoImpl(connection);
-            countryOptional = countryDao.findByFilmId(filmId);
-            transactionManager.commit();
-        } catch (TransactionException | DaoException e) {
-            transactionManager.rollback();
-            throw new ServiceException(e.getMessage());
-        } finally {
-            transactionManager.endTransaction();
-        }
-        return countryOptional;
-    }
-
+    /**
+     * Finds all countries.
+     *
+     * @return {@link List} of {@link Country}
+     * @throws ServiceException
+     */
     public List<Country> findAll() throws ServiceException {
         List<Country> countries;
         try {
@@ -49,4 +44,5 @@ public class CountryService {
         }
         return countries;
     }
+
 }

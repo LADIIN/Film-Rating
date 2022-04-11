@@ -19,6 +19,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * class ShowEditFilmPageCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ShowEditFilmPageCommand implements Command {
     public static final String CURRENT_PAGE = "current_page";
     private static final String ID = "id";

@@ -12,7 +12,6 @@ import java.time.Year;
 public class FilmRowMapper implements RowMapper<Film> {
     private final FileEncoder base64StringConverter = new FileEncoder();
 
-    //TODO:rebuild to Builder pattern;
     @Override
     public Film resultToObject(ResultSet resultSet) throws SQLException {
         long id = resultSet.getLong(Film.FILM_ID);

@@ -9,6 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * class ChangeUserRoleCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ChangeUserRoleCommand implements Command {
     private final UserService userService;
     private static final String ID = "id";

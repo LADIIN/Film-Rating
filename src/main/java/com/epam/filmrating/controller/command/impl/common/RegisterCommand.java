@@ -13,13 +13,18 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
 
+/**
+ * class RegisterCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class RegisterCommand implements Command {
     private static final String LOGIN = "login";
     private static final String PASSWORD = "password";
     private static final String EMAIL = "email";
     private static final String CURRENT_PAGE = "current_page";
     private static final String USER = "user";
-    private static final String ERROR = "error";
+    private static final String ERROR = "registerError";
     private static final String LOGGING_ERROR = "error.logging";
     private static final String INCORRECT_DATA = "register.incorrect.data";
     private static final String PAGE_PARAMETER = "&page=";
@@ -39,10 +44,10 @@ public class RegisterCommand implements Command {
         String password = request.getParameter(PASSWORD);
         String email = request.getParameter(EMAIL);
 
-        boolean isRegistered = userService.register(login, password, email);
         CommandResult commandResult;
 
         if (!userService.isUserAlreadyExist(login, email)) {
+            boolean isRegistered = userService.register(login, password, email);
             if (isRegistered) {
                 Optional<User> userOptional = userService.login(login, password);
                 if (userOptional.isPresent()) {

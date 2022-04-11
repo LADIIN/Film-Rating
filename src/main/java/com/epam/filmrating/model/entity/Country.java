@@ -2,18 +2,46 @@ package com.epam.filmrating.model.entity;
 
 import java.io.Serializable;
 
+/**
+ * Country entity.
+ *
+ * @author Darkovich Vladislav.
+ */
 public class Country implements Identifiable, Serializable {
+    /**
+     * ID column in database.
+     */
     public static final String ID = "ID";
+    /**
+     * Name column in database. .
+     */
     public static final String NAME = "country";
 
+    /**
+     * ID.
+     */
     private Long id;
+    /**
+     * Name.
+     */
     private String name;
 
+    /**
+     * Constructor.
+     *
+     * @param id
+     * @param name
+     */
     public Country(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    /**
+     * Constructor without id.
+     *
+     * @param name
+     */
     public Country(String name) {
         this.name = name;
     }
@@ -23,13 +51,22 @@ public class Country implements Identifiable, Serializable {
         return null;
     }
 
+    /**
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setting name.
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -54,9 +91,6 @@ public class Country implements Identifiable, Serializable {
 
     @Override
     public String toString() {
-        return "Country{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return String.format("Country: {id = %d, name = %s", id, name);
     }
 }

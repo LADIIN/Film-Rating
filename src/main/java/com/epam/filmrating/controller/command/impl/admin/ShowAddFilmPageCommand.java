@@ -16,6 +16,11 @@ import java.time.Year;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * class ShowAddFilmPageCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ShowAddFilmPageCommand implements Command {
     public static final String CURRENT_PAGE = "current_page";
     private static final String GENRES = "genres";

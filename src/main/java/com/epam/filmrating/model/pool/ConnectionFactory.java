@@ -11,6 +11,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Creates database connection.
+ */
 public class ConnectionFactory {
     private static final Logger LOGGER = LogManager.getLogger(ConnectionFactory.class);
     private static final String DRIVER_KEY = "db.driver";
@@ -34,7 +37,7 @@ public class ConnectionFactory {
             username = properties.getProperty(USERNAME_KEY);
             password = properties.getProperty(PASSWORD_KEY);
         } catch (ClassNotFoundException | IOException e) {
-            LOGGER.fatal("Driver class isn't found, it can't be registered", e);
+            LOGGER.fatal("Driver class isn't found", e);
             throw new DatabaseException("Driver class isn't found", e);
         }
     }

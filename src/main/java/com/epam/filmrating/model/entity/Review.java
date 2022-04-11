@@ -1,17 +1,75 @@
 package com.epam.filmrating.model.entity;
 
-public class Review implements Identifiable {
+import java.io.Serializable;
+
+/**
+ * Entity that represents user review on film.
+ */
+public class Review implements Identifiable, Serializable {
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = -6776244255449221551L;
+    /**
+     * ID database column.
+     */
+    public static final String ID = "id";
+    /**
+     * Rate database column.
+     */
+    public static final String RATE = "rate";
+    /**
+     * Content database column.
+     */
+    public static final String CONTENT = "content";
+    /**
+     * User ID database column.
+     */
+    public static final String USER_ID = "user_id";
+    /**
+     * Film ID database column.
+     */
+    public static final String FILM_ID = "film_id";
+    /**
+     * ID.
+     */
     private Long id;
+    /**
+     * Rate.
+     */
     private int rate;
+    /**
+     * Content.
+     */
     private String content;
+    /**
+     * User ID.
+     */
     private Long userId;
+    /**
+     * Film ID.
+     */
     private Long filmId;
+    /**
+     * User.
+     */
     private User user;
 
+    /**
+     * Default constructor.
+     */
     public Review() {
 
     }
 
+    /**
+     * Constructor with parameters.
+     *
+     * @param id
+     * @param rate
+     * @param content
+     * @param userId
+     */
     public Review(Long id, int rate, String content, Long userId) {
         this.id = id;
         this.rate = rate;
@@ -102,6 +160,9 @@ public class Review implements Identifiable {
         this.filmId = filmId;
     }
 
+    /**
+     * Builder for Review.
+     */
     public static class Builder {
         private Review review;
 

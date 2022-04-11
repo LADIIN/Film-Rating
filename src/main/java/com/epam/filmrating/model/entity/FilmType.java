@@ -4,13 +4,23 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * Film types.
+ * @author Darkovich Vladislav
+ */
 public enum FilmType {
     MOVIE("Movie"),
-    SERIES("Series"),
-    CARTOON("Cartoon");
+    SERIES("Series");
 
+    /**
+     * String value of enum.
+     */
     private final String value;
 
+    /**
+     * Constructor.
+     * @param value
+     */
     FilmType(String value) {
         this.value = value;
     }
@@ -20,6 +30,11 @@ public enum FilmType {
         return value;
     }
 
+    /**
+     * Converting String value to enum FilmType.
+     * @param value
+     * @return FilmType.
+     */
     public static FilmType fromString(String value) {
         Optional<FilmType> filmTypeOptional = Arrays.stream(values())
                 .filter(type -> type.value.equalsIgnoreCase(value))

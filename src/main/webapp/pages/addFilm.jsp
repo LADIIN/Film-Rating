@@ -34,7 +34,7 @@
         <h1><fmt:message key="add.film.header" bundle="${content}"/></h1>
         <div class="content">
             <div class="input-field">
-                <input class="text-input" name="title" type="text" maxlength="128"
+                <input class="text-input" name="title" type="text" pattern="[\p{L}u0-9][\p{L}u0-9 ,!:-'()?$]{3,128}"
                        placeholder="<fmt:message key="film.title" bundle="${content}"/>">
             </div>
             <div class="input-field">
@@ -44,7 +44,6 @@
                         <select name="type">
                             <option value="Movie">Movie</option>
                             <option value="Series">TV series</option>
-                            <option value="Cartoon">Cartoon</option>
                         </select>
                     </li>
                     <li>
@@ -58,7 +57,7 @@
                 </ul>
             </div>
             <div class="input-field">
-                <input class="text-input" name="director" type="text" maxlength="128"
+                <input class="text-input" name="director" type="text" pattern="[\p{L}'][ \p{L}'-.,]{3,128}"
                        placeholder="<fmt:message key="film.director" bundle="${content}"/>"/>
             </div>
             <div class="input-field">
@@ -69,39 +68,6 @@
                             <c:forEach var="country" items="${countries}" varStatus="loop">
                                 <option value="${country.getName()}">${country.getName()}</option>
                             </c:forEach>
-                            <%--                            <option value="Australia">Australia</option>--%>
-                            <%--                            <option value="Austria">Austria</option>--%>
-                            <%--                            <option value="Belarus">Belarus</option>--%>
-                            <%--                            <option value="Belgium">Belgium</option>--%>
-                            <%--                            <option value="Brazil">Brazil</option>--%>
-                            <%--                            <option value="Canada">Canada</option>--%>
-                            <%--                            <option value="China">China</option>--%>
-                            <%--                            <option value="Denmark">Denmark</option>--%>
-                            <%--                            <option value="Egypt">Egypt</option>--%>
-                            <%--                            <option value="Finland">Finland</option>--%>
-                            <%--                            <option value="France">France</option>--%>
-                            <%--                            <option value="Germany">Germany</option>--%>
-                            <%--                            <option value="Greece">Greece</option>--%>
-                            <%--                            <option value="Iceland">Iceland</option>--%>
-                            <%--                            <option value="India">India</option>--%>
-                            <%--                            <option value="Italy">Italy</option>--%>
-                            <%--                            <option value="Japan">Japan</option>--%>
-                            <%--                            <option value="Mexico">Mexico</option>--%>
-                            <%--                            <option value="Netherlands">Netherlands</option>--%>
-                            <%--                            <option value="New Zealand">New Zealand</option>--%>
-                            <%--                            <option value="Norway">Norway</option>--%>
-                            <%--                            <option value="Poland">Poland</option>--%>
-                            <%--                            <option value="Portugal">Portugal</option>--%>
-                            <%--                            <option value="Russia">Russia</option>--%>
-                            <%--                            <option value="Saudi Arabia">Saudi Arabia</option>--%>
-                            <%--                            <option value="Singapore">Singapore</option>--%>
-                            <%--                            <option value="Spain">Spain</option>--%>
-                            <%--                            <option value="Sweden">Sweden</option>--%>
-                            <%--                            <option value="Switzerland">Switzerland</option>--%>
-                            <%--                            <option value="Turkey">Turkey</option>--%>
-                            <%--                            <option value="Ukraine">Ukraine</option>--%>
-                            <%--                            <option value="UK">United Kingdom</option>--%>
-                            <%--                            <option value="USA">USA</option>--%>
                         </select>
                     </li>
                     <li style="max-width: 40%">
@@ -130,5 +96,7 @@
         <button type="submit" form="film-info"><fmt:message key="add.film.upload" bundle="${content}"/></button>
     </div>
 </div>
+
+
 </body>
 </html>

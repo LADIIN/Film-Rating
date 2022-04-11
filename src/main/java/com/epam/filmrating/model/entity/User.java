@@ -2,15 +2,38 @@ package com.epam.filmrating.model.entity;
 
 import java.io.Serializable;
 
+/**
+ * User entity.
+ */
 public class User implements Identifiable, Serializable {
-    public static final String USER_ID = "id";
-    public static final String USER_LOGIN = "login";
-    public static final String USER_EMAIL = "email";
-    public static final String USER_STATUS = "status";
-    public static final String USER_IS_ADMIN = "is_admin";
-    public static final String USER_IS_BLOCKED = "is_blocked";
-
-    private static final long serialVersionUID = 12345L;
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 3472428246668392254L;
+    /**
+     * ID database column.
+     */
+    public static final String ID = "id";
+    /**
+     * Login database column.
+     */
+    public static final String LOGIN = "login";
+    /**
+     * Email database column
+     */
+    public static final String EMAIL = "email";
+    /**
+     * Status database column.
+     */
+    public static final String STATUS = "status";
+    /**
+     * Is admin database column.
+     */
+    public static final String IS_ADMIN = "is_admin";
+    /**
+     * Is blocked database column.
+     */
+    public static final String IS_BLOCKED = "is_blocked";
 
     private Long id;
     private String login;
@@ -19,6 +42,15 @@ public class User implements Identifiable, Serializable {
     private boolean isAdmin;
     private boolean isBlocked;
 
+
+    /**
+     * Constructor with parameters.
+     * @param id
+     * @param login
+     * @param email
+     * @param isAdmin
+     * @param isBlocked
+     */
     public User(Long id, String login, String email, boolean isAdmin, boolean isBlocked) {
         this.id = id;
         this.login = login;
@@ -27,6 +59,9 @@ public class User implements Identifiable, Serializable {
         this.isBlocked = isBlocked;
     }
 
+    /**
+     * Default constructor.
+     */
     public User() {
 
     }
@@ -125,6 +160,9 @@ public class User implements Identifiable, Serializable {
 
     }
 
+    /**
+     * Builder of User.
+     */
     public static class Builder {
         private User user;
 

@@ -52,10 +52,12 @@
                 <input name="email" type="email" placeholder="${email}" autocomplete="nope"
                        pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" required/>
             </div>
-            <c:if test="${error != null}">
-                <div class="error-message"><fmt:message key="${error}" bundle="${content}"/></div>
+            <c:if test="${registerError != null}">
+                <div class="error-message"><fmt:message key="${registerError}" bundle="${content}"/></div>
             </c:if>
-            <div id="confirm-error" class="error-message" style="visibility: hidden">Passwords don't match.</div>
+            <div id="confirm-error" class="error-message" style="visibility: hidden">
+                <fmt:message key="passwords.mismatch" bundle="${content}"/>.
+            </div>
         </div>
 
         <div class="action">
@@ -63,5 +65,6 @@
         </div>
     </form>
 </div>
+
 </body>
 </html>

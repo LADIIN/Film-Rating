@@ -8,6 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * class ShowRegisterPageCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ShowRegisterPageCommand implements Command {
     public static final String CURRENT_PAGE = "current_page";
 

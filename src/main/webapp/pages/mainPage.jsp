@@ -2,6 +2,7 @@
 <%@page pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="ctg" uri="custom-tag" %>
 
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="locale.content" var="content"/>
@@ -56,29 +57,10 @@
 
     </div>
 
-    <div class="pagination-wrapper">
-        <div class="pagination">
-            <c:if test="${page > 1}">
-                <a href="${pageContext.request.contextPath}/controller?command=films_page&page=${page - 1}">&laquo;</a>
-            </c:if>
-            <c:if test="${pages > 1}">
-                <c:forEach var="pageNumber" begin="1" end="${pages}">
-                    <c:choose>
-                        <c:when test="${pageNumber eq page}">
-                            <a class="active">${pageNumber}</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="${pageContext.request.contextPath}/controller?command=main_page&film_type=${film_type.toString()}&page=${pageNumber}">${pageNumber}</a>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </c:if>
-            <c:if test="${page < pages}">
-                <a href="${pageContext.request.contextPath}/controller?command=films_page&film_type=${film_type.toString()}&page=${page + 1}">&raquo;</a>
-            </c:if>
-        </div>
-    </div>
-
+    <ctg:pagination currentPage="${page}"
+                    uri="${pageContext.request.contextPath}/controller?command=main_page&film_type=${film_type.toString()}"
+                    elementsOnPage="${filmsOnPage}" elements="${elements}"/>
 </div>
+<%@include file="footer.jsp" %>
 </body>
 </html>

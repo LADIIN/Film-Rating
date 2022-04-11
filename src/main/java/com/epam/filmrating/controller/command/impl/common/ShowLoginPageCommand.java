@@ -1,4 +1,4 @@
-package com.epam.filmrating.controller.command.impl.user;
+package com.epam.filmrating.controller.command.impl.common;
 
 import com.epam.filmrating.controller.command.Command;
 import com.epam.filmrating.controller.command.CommandResult;
@@ -7,6 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * class ShowLoginPageCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ShowLoginPageCommand implements Command {
     public static final String CURRENT_PAGE = "current_page";
 

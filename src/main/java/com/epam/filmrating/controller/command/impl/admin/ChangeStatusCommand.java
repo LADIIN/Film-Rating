@@ -9,6 +9,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+
+/**
+ * class ChangeStatusCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class ChangeStatusCommand implements Command {
     private static final String STATUS = "status";
     private static final String ID = "id";

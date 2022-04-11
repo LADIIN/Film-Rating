@@ -12,6 +12,11 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
+/**
+ * class SearchUserCommand
+ *
+ * @author Vladislav Darkovich
+ */
 public class SearchUserCommand implements Command {
     private static final String SEARCH_QUERY = "query";
     private static final String USERS = "users";
