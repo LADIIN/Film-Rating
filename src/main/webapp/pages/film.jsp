@@ -63,59 +63,61 @@
         </div>
     </div>
 
-    <div class="film-section"><fmt:message key="review.message" bundle="${content}"/></div>
+    <c:if test="${not isUserReviewExist}">
+        <div class="film-section"><fmt:message key="review.message" bundle="${content}"/></div>
+        <form method="get" action="${pageContext.request.contextPath}/controller">
+            <input type="hidden" name="command" value="add_review"/>
+            <input type="hidden" name="filmId" value="${film.getId()}">
+            <div class="review-area">
+                <div id="full-stars-example-two">
+                    <div class="rating-group">
+                        <input checked class="rating-input rating__input--none" name="rate" id="rating3-none"
+                               value="0" type="radio">
+                        <label aria-label="2 stars" class="rating-label" for="rating3-2"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-2" value="2" type="radio">
+                        <label aria-label="3 stars" class="rating-label" for="rating3-3"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-3" value="3" type="radio">
+                        <label aria-label="4 stars" class="rating-label" for="rating3-4"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-4" value="4" type="radio">
+                        <label aria-label="5 stars" class="rating-label" for="rating3-5"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-5" value="5" type="radio">
+                        <label aria-label="5 stars" class="rating-label" for="rating3-6"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-6" value="6" type="radio">
+                        <label aria-label="5 stars" class="rating-label" for="rating3-7"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-7" value="7" type="radio">
+                        <label aria-label="5 stars" class="rating-label" for="rating3-8"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-8" value="8" type="radio">
+                        <label aria-label="5 stars" class="rating-label" for="rating3-9"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-9" value="9" type="radio">
+                        <label aria-label="5 stars" class="rating-label" for="rating3-10"><i
+                                class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
+                        <input class="rating-input" name="rate" id="rating3-10" value="10" type="radio">
+                    </div>
+                </div>
 
-    <form method="get" action="${pageContext.request.contextPath}/controller">
-        <input type="hidden" name="command" value="add_review"/>
-        <input type="hidden" name="filmId" value="${film.getId()}">
-        <div class="review-area">
-            <div id="full-stars-example-two">
-                <div class="rating-group">
-                    <input checked class="rating-input rating__input--none" name="rate" id="rating3-none"
-                           value="0" type="radio">
-                    <label aria-label="2 stars" class="rating-label" for="rating3-2"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-2" value="2" type="radio">
-                    <label aria-label="3 stars" class="rating-label" for="rating3-3"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-3" value="3" type="radio">
-                    <label aria-label="4 stars" class="rating-label" for="rating3-4"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-4" value="4" type="radio">
-                    <label aria-label="5 stars" class="rating-label" for="rating3-5"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-5" value="5" type="radio">
-                    <label aria-label="5 stars" class="rating-label" for="rating3-6"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-6" value="6" type="radio">
-                    <label aria-label="5 stars" class="rating-label" for="rating3-7"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-7" value="7" type="radio">
-                    <label aria-label="5 stars" class="rating-label" for="rating3-8"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-8" value="8" type="radio">
-                    <label aria-label="5 stars" class="rating-label" for="rating3-9"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-9" value="9" type="radio">
-                    <label aria-label="5 stars" class="rating-label" for="rating3-10"><i
-                            class="rating__icon rating__icon--star fa-solid fa-star"></i></label>
-                    <input class="rating-input" name="rate" id="rating3-10" value="10" type="radio">
+                <fmt:message key="review.placeholder" bundle="${content}" var="placeholder"/>
+
+                <textarea class="review-textarea" name="content" placeholder="${placeholder}"></textarea>
+
+                <c:if test="${error != null}">
+                    <div class="error-message"><fmt:message key="${error}" bundle="${content}"/></div>
+                </c:if>
+
+                <div style="width: 100%;">
+                    <button class="submit-button"><fmt:message key="review.submit" bundle="${content}"/></button>
                 </div>
             </div>
+        </form>
+    </c:if>
 
-            <fmt:message key="review.placeholder" bundle="${content}" var="placeholder"/>
-
-            <textarea class="review-textarea" name="content" placeholder="${placeholder}"></textarea>
-
-            <c:if test="${error != null}">
-                <div class="error-message"><fmt:message key="${error}" bundle="${content}"/></div>
-            </c:if>
-
-            <div style="width: 100%;">
-                <button class="submit-button"><fmt:message key="review.submit" bundle="${content}"/></button>
-            </div>
-        </div>
-    </form>
 
     <div class="film-section"><fmt:message key="reviews" bundle="${content}"/>:</div>
 

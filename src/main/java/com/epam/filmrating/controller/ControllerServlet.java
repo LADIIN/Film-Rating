@@ -15,6 +15,7 @@ import java.io.IOException;
 
 /**
  * Overrides doPost and doGet methods by calling custom method processRequest
+ *
  * @author Vladislav Darkovich.
  */
 public class ControllerServlet extends HttpServlet {
@@ -61,9 +62,7 @@ public class ControllerServlet extends HttpServlet {
      */
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String commandName = request.getParameter(COMMAND);
-        LOGGER.info("Command: {}", commandName);
         CommandFactory commandFactory = new CommandFactory();
-
         try {
             Command command = commandFactory.create(commandName).orElseThrow(IllegalArgumentException::new);
             CommandResult result = command.execute(request, response);
@@ -71,12 +70,13 @@ public class ControllerServlet extends HttpServlet {
         } catch (ServiceException e) {
             request.setAttribute(ERROR, e.getMessage());
             LOGGER.error(e.getMessage());
-            dispatch(request, response, CommandResult.forward("/pages/error.jsp"));
+            dispatch(request, response, CommandResult.forward(Pages.ERROR_PAGE));
         }
     }
 
     /**
      * Dispatches redirect or forward response corresponding CommandResult.
+     *
      * @param request
      * @param response
      * @param result

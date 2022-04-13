@@ -141,6 +141,7 @@ public class ReviewService {
 
     /**
      * Deletes review.
+     *
      * @param id
      * @return true if is deleted and false otherwise.
      * @throws ServiceException
@@ -158,6 +159,29 @@ public class ReviewService {
             throw new ServiceException(e.getMessage());
         }
         return isDeleted;
+    }
+
+    /**
+     * Checks is user review on film exist.
+     *
+     * @param userId
+     * @param filmId
+     * @return true if review exist and false otherwise.
+     * @throws ServiceException
+     */
+    public boolean isReviewExist(Long userId, Long filmId) throws ServiceException {
+        int amount;
+        try {
+            transactionManager.initializeTransaction();
+            Connection connection = transactionManager.getConnection();
+            ReviewDaoImpl reviewDao = new ReviewDaoImpl(connection);
+            amount = reviewDao.isReviewExist(userId, filmId);
+            transactionManager.commit();
+        } catch (TransactionException | DaoException e) {
+            transactionManager.rollback();
+            throw new ServiceException(e.getMessage());
+        }
+        return amount != 0;
     }
 
 }

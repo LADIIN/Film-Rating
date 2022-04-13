@@ -1398,4 +1398,44 @@ th, td {
     margin-right: 40px;
 }
 
+/**
+    ERROR PAGE
+ */
+
+.error {
+    font-family: 'Rubik', sans-serif;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin: 0 -50% 0 0;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.error h1 {
+    font-weight: 500;
+    font-size: 200px;
+}
+
+.error .prompt {
+    font-size: 24px;
+}
+
+.go-back-button {
+    margin-top: 30px;
+}
+
+.go-back-button a {
+    text-decoration: none;
+    color: white;
+    background-color: #F73A4C;
+    padding: 10px 30px 10px 30px;
+    border-radius: 15px;
+    font-size: 18px;
+}
+
+.go-back-button a:hover {
+    background-color: rgba(247, 58, 76, 0.85);
+}
+
 

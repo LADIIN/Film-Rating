@@ -34,6 +34,8 @@ public class ReviewDaoImpl extends AbstractDao<Review> {
      */
     private static final String SELECT_AVERAGE_RATE = "SELECT avg(rate) FROM reviews WHERE is_deleted = false and film_id = ?";
 
+    private static final String IS_REVIEW_EXIST = "SELECT count(1) FROM reviews WHERE is_deleted = false and user_id = ? and film_id = ?;";
+
     /**
      * Constructor.
      *
@@ -82,6 +84,18 @@ public class ReviewDaoImpl extends AbstractDao<Review> {
      */
     public double calculateAverageFilmRate(Long filmId) throws DaoException {
         return executeSelectFunctionQuery(SELECT_AVERAGE_RATE, filmId).doubleValue();
+    }
+
+    /**
+     * Checks is user review on film exist.
+     *
+     * @param userId
+     * @param filmId
+     * @return 1 if exist and 0 otherwise.
+     * @throws DaoException
+     */
+    public int isReviewExist(Long userId, Long filmId) throws DaoException {
+        return executeSelectFunctionQuery(IS_REVIEW_EXIST, userId, filmId).intValue();
     }
 
 

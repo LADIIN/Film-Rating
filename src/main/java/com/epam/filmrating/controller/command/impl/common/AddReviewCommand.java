@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import static com.epam.filmrating.model.entity.Review.FILM_ID;
 
 /**
  * class AddReviewCommand
@@ -26,6 +25,10 @@ public class AddReviewCommand implements Command {
     private static final String ERROR = "error";
     private static final String INCORRECT_DATA_ERROR = "film.incorrect.data";
     private static final int REVIEWS_NEEDED_FOR_UPDATE = 5;
+    public static final String FILM_ID = "filmId";
+    public static final String CONTENT = "content";
+    public static final String RATE = "rate";
+
 
     private final ReviewService reviewService;
     private final FilmService filmService;
@@ -41,8 +44,8 @@ public class AddReviewCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(USER);
-        int rate = Integer.parseInt(request.getParameter(Review.RATE));
-        String content = request.getParameter(Review.CONTENT);
+        int rate = Integer.parseInt(request.getParameter(RATE));
+        String content = request.getParameter(CONTENT);
         Long filmId = Long.valueOf(request.getParameter(FILM_ID));
         Long userId = user.getId();
         boolean isAdded = reviewService.add(rate, content, filmId, userId);

@@ -4,6 +4,7 @@ import com.epam.filmrating.controller.command.*;
 import com.epam.filmrating.exception.ServiceException;
 import com.epam.filmrating.model.entity.Film;
 import com.epam.filmrating.model.entity.Review;
+import com.epam.filmrating.model.entity.User;
 import com.epam.filmrating.model.service.FilmService;
 import com.epam.filmrating.model.service.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,8 @@ public class ShowFilmPageCommand implements Command {
     private static final String IS_REVIEW_DELETED = "isReviewDeleted";
     private static final String MESSAGE = "message";
     private static final String REVIEW_DELETED = "review.deleted";
+    private static final String USER = "user";
+    private static final String IS_USER_REVIEW_EXIST = "isUserReviewExist";
 
     private final FilmService filmService;
     private final ReviewService reviewService;
@@ -39,8 +42,15 @@ public class ShowFilmPageCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         session.removeAttribute(MESSAGE);
-        Long id = Long.valueOf(request.getParameter(ID));
-        Optional<Film> filmOptional = filmService.findById(id);
+
+        User user = (User) session.getAttribute(USER);
+        Long userId = user.getId();
+        Long filmId = Long.valueOf(request.getParameter(ID));
+        boolean isUserReviewExist = reviewService.isReviewExist(userId, filmId);
+        System.out.println(isUserReviewExist);
+
+        session.setAttribute(IS_USER_REVIEW_EXIST, isUserReviewExist);
+        Optional<Film> filmOptional = filmService.findById(filmId);
         Film film = filmOptional.orElseThrow(IllegalArgumentException::new);
         session.setAttribute(FILM, film);
         List<Review> reviews = reviewService.findAllByFilmId(film.getId());
@@ -56,7 +66,7 @@ public class ShowFilmPageCommand implements Command {
             }
         }
         session.setAttribute(REVIEWS, reviews);
-        session.setAttribute(CURRENT_PAGE, Pages.FILM_PAGE_REDIRECT + id);
+        session.setAttribute(CURRENT_PAGE, Pages.FILM_PAGE_REDIRECT + filmId);
         return CommandResult.forward(Pages.FILM_PAGE);
     }
 }

@@ -18,6 +18,7 @@ public class Pages {
     public static final String SEARCH_RESULT_MAIN_PAGE = "/pages/searchResultMainPage.jsp";
     public static final String REGISTER_PAGE = "/pages/register.jsp";
     public static final String RATING_PAGE = "/pages/rating.jsp";
+    public static final String ERROR_PAGE = "/pages/error.jsp";
 
     public static final String MAIN_PAGE_REDIRECT = "/controller?command=main_page&film_type=";
     public static final String LOGIN_PAGE_REDIRECT = "/controller?command=login_page";
